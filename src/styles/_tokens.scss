@@ -1,0 +1,83 @@
+// =============================================================================
+// SanMar Design Tokens — synced from Figma "Design System - Foundation 1.2"
+// =============================================================================
+// Single source of truth for brand values. Kept in sync with the SanMar Figma
+// design system; re-sync with /sync-tokens.
+//
+//   COLORS      ✅ synced 2026-06-10 (Color page + Theme + Light Theme)
+//   TYPOGRAPHY  ✅ synced 2026-06-10 (Typography tab)
+//   SPACING     ✅ synced 2026-06-10 (Spacing tab)
+// =============================================================================
+
+// --- Palette (primitive colors) ----------------------------------------------
+$sm-blue:    #0077cf;
+$sm-indigo:  #6610f2;
+$sm-purple:  #6f42c1;
+$sm-pink:    #d63384;
+$sm-red:     #da3d13;
+$sm-orange:  #fd7e14;
+$sm-yellow:  #e3cb1f;
+$sm-green:   #00884f;
+$sm-teal:    #20c997;
+$sm-cyan:    #0dcaf0;
+
+// --- Grays -------------------------------------------------------------------
+$sm-white:     #ffffff;
+$sm-gray-050:  #f8f8f8; // extra step not in stock Bootstrap
+$sm-gray-100:  #f8f9fa;
+$sm-gray-200:  #e9ecef;
+$sm-gray-300:  #dee2e6;
+$sm-gray-400:  #ced4da;
+$sm-gray-500:  #adb5bd;
+$sm-gray-600:  #6c757d;
+$sm-gray-700:  #495057;
+$sm-gray-800:  #343a40;
+$sm-gray-900:  #212529;
+$sm-black:     #000000;
+
+// --- Semantic theme colors (map onto Bootstrap roles in _theme.scss) ---------
+$sm-primary:    $sm-blue;     // #0077cf — SanMar brand blue
+$sm-secondary:  $sm-gray-600; // #6c757d
+$sm-success:    $sm-green;    // #00884f
+$sm-danger:     $sm-red;      // #da3d13
+$sm-warning:    $sm-yellow;   // #e3cb1f
+$sm-info:       $sm-cyan;     // #0dcaf0
+$sm-light:      $sm-gray-100; // #f8f9fa
+$sm-dark:       $sm-gray-900; // #212529
+
+// --- Body & border -----------------------------------------------------------
+$sm-body-color:           $sm-gray-900;        // #212529
+$sm-body-bg:              $sm-white;           // #ffffff
+$sm-body-secondary-color: rgba(#242424, .75);  // #242424bf
+$sm-body-tertiary-color:  rgba(#242424, .5);   // #24242480
+$sm-body-secondary-bg:    $sm-gray-200;        // #e9ecef
+$sm-border-color:         $sm-gray-300;        // #dee2e6
+$sm-border-radius-xxl:    2rem;                // 32px
+
+// --- Typography --------------------------------------------------------------
+// Fonts are loaded via Google Fonts in index.html.
+// NOTE: the size/weight scale below matches Bootstrap's defaults exactly, so we
+// only override the font FAMILIES. The numeric scale is documented here for the
+// design-system reference, but not re-declared in _theme.scss (no-op overrides).
+$sm-font-sans:   "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+$sm-font-serif:  "Libre Baskerville", Georgia, "Times New Roman", serif;
+
+$sm-font-size-base:     1rem;    // 16px
+$sm-font-size-sm:       .875rem; // 14px
+$sm-font-size-lg:       1.25rem; // 20px
+$sm-font-size-xs:       .75rem;  // 12px — extra step (not in stock Bootstrap)
+
+$sm-font-weight-normal:   400;
+$sm-headings-font-weight: 500;
+$sm-display-font-weight:  300;   // displays render in Libre Baskerville
+$sm-headings-line-height: 1.2;
+
+// --- Spacing -----------------------------------------------------------------
+// Spacer scale: steps 1–5 match Bootstrap's defaults; SanMar adds a 6th step.
+// The 6th step is merged into Bootstrap's $spacers map in main.scss (it needs
+// Bootstrap's $spacer, which isn't available this early). Documented here:
+//   1: 4px   2: 8px   3: 16px   4: 24px   5: 48px   6: 64px (custom)
+$sm-spacer-6: 4rem; // 64px — extra step beyond Bootstrap's default 0–5
+
+// Radius: border-radius-xxl (32px / 2rem) is set above; it matches Bootstrap's
+// default, so no override is required.

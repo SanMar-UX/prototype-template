@@ -1,0 +1,145 @@
+// =============================================================================
+// SanMar → Bootstrap theme bridge
+// =============================================================================
+// Maps SanMar design tokens onto Bootstrap's Sass variables. These assignments
+// run BEFORE Bootstrap's variables are imported (see main.scss), so Bootstrap
+// builds its entire system — including auto-derived values like the *-bg-subtle
+// / *-text-emphasis colors — from SanMar values.
+//
+// Keep raw brand values in _tokens.scss; this file only does the mapping.
+// =============================================================================
+
+@use "tokens" as *;
+
+// --- Palette -> Bootstrap primitives -----------------------------------------
+$blue:    $sm-blue;
+$indigo:  $sm-indigo;
+$purple:  $sm-purple;
+$pink:    $sm-pink;
+$red:     $sm-red;
+$orange:  $sm-orange;
+$yellow:  $sm-yellow;
+$green:   $sm-green;
+$teal:    $sm-teal;
+$cyan:    $sm-cyan;
+
+// --- Grays -------------------------------------------------------------------
+$white:    $sm-white;
+$gray-100: $sm-gray-100;
+$gray-200: $sm-gray-200;
+$gray-300: $sm-gray-300;
+$gray-400: $sm-gray-400;
+$gray-500: $sm-gray-500;
+$gray-600: $sm-gray-600;
+$gray-700: $sm-gray-700;
+$gray-800: $sm-gray-800;
+$gray-900: $sm-gray-900;
+$black:    $sm-black;
+
+// --- Semantic theme colors ---------------------------------------------------
+$primary:    $sm-primary;
+$secondary:  $sm-secondary;
+$success:    $sm-success;
+$danger:     $sm-danger;
+$warning:    $sm-warning;
+$info:       $sm-info;
+$light:      $sm-light;
+$dark:       $sm-dark;
+
+// --- Body & border -----------------------------------------------------------
+$body-color:           $sm-body-color;
+$body-bg:              $sm-body-bg;
+$body-secondary-color: $sm-body-secondary-color;
+$body-tertiary-color:  $sm-body-tertiary-color;
+$body-secondary-bg:    $sm-body-secondary-bg;
+$border-color:         $sm-border-color;
+$border-radius-xxl:    $sm-border-radius-xxl;
+
+// --- Typography --------------------------------------------------------------
+// Only the font families differ from Bootstrap's defaults; the size/weight scale
+// already matches, so we don't re-declare it. Display headings use the serif.
+$font-family-sans-serif: $sm-font-sans;
+$display-font-family:    $sm-font-serif;
+$headings-font-weight:   $sm-headings-font-weight; // 500 (explicit; = default)
+$display-font-weight:    $sm-display-font-weight;   // 300
+
+// --- Spacing -----------------------------------------------------------------
+// Spacer steps 1–5 match Bootstrap's defaults; the custom 6th step (4rem) is
+// merged into $spacers in main.scss (it requires Bootstrap's $spacer, defined
+// after this file is imported).
+
+// =============================================================================
+// Components — overrides that map to Bootstrap's per-component Sass variables.
+// (Customizations that need real CSS, like the icon button, live in
+// _components.scss, imported after Bootstrap.)
+// =============================================================================
+
+// --- Buttons -----------------------------------------------------------------
+// SanMar buttons use tighter corner radii than Bootstrap. Everything else
+// (padding, font, colors, hover/active, focus ring) matches Bootstrap defaults.
+$btn-border-radius:    0.25rem;  // 4px (Bootstrap default 6px)
+$btn-border-radius-sm: 0.125rem; // 2px (Bootstrap default 4px)
+$btn-border-radius-lg: 0.375rem; // 6px (Bootstrap default 8px)
+
+// --- Accordion ---------------------------------------------------------------
+// Everything (padding, colors, border) matches Bootstrap defaults except the
+// tighter corner radius. Active/expanded state uses Bootstrap's default
+// (primary-bg-subtle), which is on-brand from the synced theme colors.
+$accordion-border-radius: 0.25rem; // 4px (Bootstrap default 6px)
+
+// --- Alerts ------------------------------------------------------------------
+// Padding (16px), dismissible spacing (48px), close button, and the subtle/
+// emphasis colors all match Bootstrap defaults. Only the radius differs. The
+// leading icon seen in Figma is a usage pattern added in markup, not a style.
+$alert-border-radius: 0.25rem; // 4px (Bootstrap default 6px)
+
+// --- Badges ------------------------------------------------------------------
+// Color, font-size (.75em), weight (700), and padding match Bootstrap defaults;
+// em-based sizing and the pill shape are standard. Only the radius differs.
+$badge-border-radius: 0.25rem; // 4px (Bootstrap default 6px)
+
+// --- Breadcrumb --------------------------------------------------------------
+// Padding, divider color, active color, and link color all match Bootstrap
+// defaults. The only change: SanMar's default divider is a chevron, not a slash.
+// (The divider is configurable per instance via --bs-breadcrumb-divider; the
+//  Figma also shows /, <, and \.)
+$breadcrumb-divider: quote(">");
+
+// --- Form controls (input, select, …) ----------------------------------------
+// Padding, border color, placeholder, validation colors, select indicator, and
+// input-group addon all match Bootstrap defaults. Only the radii differ (same
+// tighter pattern as buttons). The subtle inset shadow is in _components.scss.
+$input-border-radius:    0.25rem;  // 4px (Bootstrap default 6px)
+$input-border-radius-sm: 0.125rem; // 2px (Bootstrap default 4px)
+$input-border-radius-lg: 0.375rem; // 6px (Bootstrap default 8px)
+
+// --- Tooltip -----------------------------------------------------------------
+// Black bg, white text, padding, max-width, and arrow size all match Bootstrap.
+// Only the corner radius differs.
+$tooltip-border-radius: 0.25rem; // 4px (Bootstrap default 6px)
+
+// --- Card --------------------------------------------------------------------
+// Background, translucent border, 6px radius, and the subtle header/footer cap
+// all match Bootstrap defaults. NOTE: the card keeps the 6px corner (unlike the
+// 4px components). The only change is roomier 24px padding, including the
+// header/footer (Bootstrap makes the caps half-height by default).
+$card-spacer-y:      1.5rem; // 24px (Bootstrap default 16px)
+$card-spacer-x:      1.5rem; // 24px (Bootstrap default 16px)
+$card-cap-padding-y: 1.5rem; // 24px — caps match the body (Bootstrap default is half)
+
+// --- Pagination --------------------------------------------------------------
+// Link color (primary), white bg, hover/focus (gray-100 + primary focus ring),
+// borders, and radii all match Bootstrap defaults. The SanMar difference is the
+// ACTIVE page: a soft tinted fill with darker-blue text, instead of Bootstrap's
+// solid-primary fill with white text. Disabled text is one step lighter.
+// Derived from $primary so it tracks the synced theme.
+$pagination-active-color:        shade-color($primary, 20%); // #005fa6 darker-blue text
+$pagination-active-bg:           tint-color($primary, 80%);  // #cce4f5 soft-blue fill
+$pagination-active-border-color: tint-color($primary, 80%);  // border matches the fill
+$pagination-disabled-color:      $gray-500;                  // #adb5bd (Bootstrap default gray-600)
+
+// --- Progress ----------------------------------------------------------------
+// Track (gray-200), bar (primary), 16px height, and the subtle inset shadow all
+// match Bootstrap defaults. Only the corner radius is tightened to 4px, in line
+// with the other SanMar components.
+$progress-border-radius: 0.25rem; // 4px (Bootstrap default 6px)

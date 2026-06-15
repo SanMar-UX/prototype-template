@@ -1,0 +1,193 @@
+// =============================================================================
+// SanMar custom component styles
+// =============================================================================
+// For component customizations that go beyond Bootstrap's Sass variables.
+// Prefer variable overrides in _theme.scss when a component can be matched that
+// way; only put real CSS here. Imported AFTER Bootstrap in main.scss so it wins.
+// =============================================================================
+
+@use "tokens" as *; // for $sm-font-serif etc.
+
+// Break a child out of a constrained container to full viewport width.
+.full-bleed {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+}
+
+// --- Icon button -------------------------------------------------------------
+// Square, icon-only button — a SanMar addition (not native to Bootstrap).
+// Equal padding per size: 10px / 13px / 7.5px. Pairs with any btn variant.
+// Usage: <button class="btn btn-primary btn-icon"><svg/></button>
+.btn-icon {
+  --bs-btn-padding-x: 0.625rem;  // 10px
+  --bs-btn-padding-y: 0.625rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+
+  &.btn-lg {
+    --bs-btn-padding-x: 0.8125rem; // 13px
+    --bs-btn-padding-y: 0.8125rem;
+  }
+  &.btn-sm {
+    --bs-btn-padding-x: 0.46875rem; // 7.5px
+    --bs-btn-padding-y: 0.46875rem;
+  }
+}
+
+// --- Close button ------------------------------------------------------------
+// Color, padding, opacity, and the white variant match Bootstrap. Only the
+// corner differs (Bootstrap hardcodes 6px via the border-radius mixin, so this
+// can't be set with a Sass variable). Shows on the focus ring.
+.btn-close {
+  border-radius: 0.25rem; // 4px (Bootstrap default 6px)
+}
+
+// --- Site header -------------------------------------------------------------
+// SanMar's composed e-commerce header (utility bar + blue nav + search). Uses
+// core theme colors (primary blue, link color, green badge); a few layout-only
+// styles live here.
+.site-header {
+  background-color: #fff;
+
+  .header-divider {
+    width: 1px;
+    align-self: stretch;
+    background-color: var(--bs-border-color);
+  }
+  .header-tagline {
+    font-family: $sm-font-serif;
+    color: var(--bs-body-color);
+    font-size: 1rem;
+    white-space: nowrap;
+  }
+  .header-util-link {
+    color: var(--bs-primary);
+    font-size: 14px;
+    text-decoration: none;
+    white-space: nowrap;
+    &:hover { text-decoration: underline; }
+  }
+
+  // Blue main nav bar
+  .header-navbar { background-color: var(--bs-primary); }
+  .header-nav-item {
+    color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 1rem 1.75rem;
+    white-space: nowrap;
+    &:hover { background-color: rgba(0, 0, 0, 0.08); color: #fff; }
+  }
+
+  // Search field (sits on the blue bar)
+  .header-search {
+    position: relative;
+    flex: 1 1 auto;
+    max-width: 500px;
+    .header-search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--bs-secondary-color);
+      pointer-events: none;
+    }
+    .form-control { padding-left: 36px; }
+  }
+
+  // Shopping-box cart badge
+  .header-cart {
+    position: relative;
+    display: inline-block;
+    .header-cart-badge {
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: var(--bs-success);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1;
+      padding: 2px 6px;
+      border-radius: 800px;
+    }
+  }
+
+  // Mobile hamburger
+  .header-hamburger {
+    background: none;
+    border: 0;
+    color: var(--bs-primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+}
+
+// --- Site footer -------------------------------------------------------------
+// A composed marketing footer. Uses SanMar's footer brand palette (a deep navy
+// + "SM Sky Blue" links) which is separate from the core Bootstrap theme, so the
+// values are scoped here rather than added to the global theme.
+.site-footer {
+  --sm-footer-bg: #003861;
+  --sm-footer-panel-bg: #002947;
+  --sm-footer-link: #b8e2f4;
+  --sm-footer-heading: #fdfdfd;
+  --sm-footer-divider: rgba(255, 255, 255, 0.16);
+
+  background-color: var(--sm-footer-bg);
+  color: #fff;
+  font-size: 14px;
+
+  .footer-heading {
+    color: var(--sm-footer-heading);
+    font-weight: 600;
+    letter-spacing: 0.2px;
+  }
+  .footer-link {
+    color: var(--sm-footer-link);
+    text-decoration: none;
+    letter-spacing: 0.15px;
+    &:hover { color: #fff; text-decoration: underline; }
+  }
+  .footer-divider {
+    height: 1px;
+    background-color: var(--sm-footer-divider);
+  }
+  .footer-social a { color: var(--sm-footer-link); &:hover { color: #fff; } }
+
+  // Mobile accordion
+  .footer-toggle {
+    background: transparent;
+    border: 0;
+    color: #fff;
+    font-weight: 500;
+    padding: 1.125rem 1rem;
+    svg { transition: transform 0.15s ease; }
+  }
+  .footer-panel { background-color: var(--sm-footer-panel-bg); }
+}
+
+// --- Input inset shadow ------------------------------------------------------
+// SanMar form controls carry a subtle inner shadow (Bootstrap ships it off by
+// default). The focus ring still takes over on :focus.
+.form-control,
+.form-select {
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075);
+}
+
+// --- Button depth shadow -----------------------------------------------------
+// SanMar buttons carry a subtle inner shadow for depth (Bootstrap ships this
+// off by default). Excludes link buttons. The focus ring still takes over on
+// :focus-visible, matching the Figma focus state.
+.btn:not(.btn-link) {
+  box-shadow:
+    inset 0 1px 1px rgba(0, 0, 0, 0.075),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.075);
+}
