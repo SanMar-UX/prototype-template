@@ -36,8 +36,14 @@ npm install      # install dependencies
 npm run dev      # start the dev server, opens http://localhost:5173
 ```
 
-Edit files in `src/` and the browser hot-reloads instantly. The included example
-is a small product browse → detail → cart flow; delete or replace it.
+Edit files in `src/` and the browser hot-reloads instantly. Two screens ship with
+the template:
+
+- **`/`** — a blank starter (`StarterPage`) with the SanMar header and footer
+  already in place; replace the body with your prototype.
+- **`/design-system`** — a live catalog of every themed component (buttons,
+  forms, tables, modals, toasts, nav, and more). **Crib from here instead of
+  building from scratch.**
 
 ---
 
@@ -49,10 +55,10 @@ src/
 │   ├── _tokens.scss   # SanMar brand values — synced from Figma (/sync-tokens)
 │   ├── _theme.scss    # maps tokens onto Bootstrap's Sass variables
 │   └── main.scss      # imports overrides FIRST, then Bootstrap (order matters)
-├── components/        # reusable pieces (e.g. AppNav)
-├── screens/           # one file per screen; routes are wired in App.jsx
-├── data/              # mock data
-├── App.jsx            # routing + shared state (e.g. cart)
+├── components/        # shared pieces (SiteHeader, SiteFooter)
+├── screens/           # one screen per file (StarterPage, DesignSystem); routes in App.jsx
+├── data/              # mock data (add as needed)
+├── App.jsx            # routing — register each screen as a <Route>
 └── main.jsx           # entry point; imports the stylesheet
 ```
 
