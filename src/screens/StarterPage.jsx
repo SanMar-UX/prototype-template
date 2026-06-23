@@ -20,6 +20,8 @@ export default function StarterPage() {
 
       <Container as="main" className="py-5 flex-grow-1">
         <h1 className="h3">Your content goes here</h1>
+        {/* TEMP deploy-test marker — remove after confirming the deploy loop */}
+        <p className="badge text-bg-info mb-3">✅ deploy test — pushed via Claude Code</p>
         <p className="text-secondary mb-0">
           A blank, themed starting point with the SanMar header and footer in
           place. Replace this body with your prototype — reach for components from
