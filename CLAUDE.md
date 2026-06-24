@@ -1,7 +1,11 @@
-# SanMar Prototype — guidance for Claude Code
+# SanMar Prototype Gallery — guidance for Claude Code
 
-This is a **throwaway UX prototype** built from the SanMar prototyping template.
-Optimize for speed of iteration and visual fidelity, not production hardening.
+This repo is the **SanMar prototype gallery**: ONE deployed app that hosts many
+UX prototypes, each as its own route (e.g. `/simplified-returns`). It is NOT one
+repo per prototype — everything lives here and deploys together. Optimize for
+speed of iteration and visual fidelity, not production hardening.
+
+See **"The gallery model"** below for how prototypes are added and deployed.
 
 ## Stack
 - **React 18 + Vite** — app shell. `npm run dev` for hot-reload.
@@ -23,6 +27,40 @@ Optimize for speed of iteration and visual fidelity, not production hardening.
   system layer, not in a one-off style.
 - This is a prototype: **no backend, no auth, no tests required.** Fake data and
   faked latency are fine and encouraged for realism.
+
+## The gallery model — how prototypes live here
+
+This repo is **one app, many prototypes**. Each prototype is a route; they all
+deploy together to one Vercel project under one domain. There is NOT one repo per
+prototype.
+
+- **Homepage `/`** is the gallery index — a list/grid of cards linking to each
+  prototype. Add a card whenever you add a prototype.
+- **Each prototype = one route**: a screen in `src/screens/`, registered as a
+  `<Route>` in `src/App.jsx`, at a kebab-case path matching its name
+  (`/simplified-returns`, `/pdp`, `/shareable-links`).
+- **`/design-system`** stays the shared component catalog — reuse from it.
+
+### Adding a prototype (the repeatable recipe)
+1. **`git pull` first** — this is a shared repo; get teammates' latest work.
+2. Create `src/screens/<Name>.jsx` (start from `StarterPage` — real header/footer).
+3. Register `<Route path="/<slug>" element={<Name/>} />` in `src/App.jsx`.
+4. Add a card linking to `/<slug>` on the gallery index (`/`).
+5. Build the screens with react-bootstrap + existing tokens (see the catalog).
+
+### Deploying (what "deploy it" means)
+Deploy = **push to `main`**. Vercel's GitHub webhook auto-builds (~10s) and updates
+the live site; every prototype is served at `…/<slug>`. Claude runs the git for the
+user — they never touch git or Vercel:
+1. **`git pull`** (sync), then **build-check (`npm run build`)** so one broken
+   prototype can't fail the whole shared deploy.
+2. `git add -A && git commit && git push origin main`.
+3. The whole gallery redeploys; the new/updated prototype is live at its path.
+
+### For non-technical teammates
+Their entire workflow is three plain-English asks to Claude: **"build a `<name>`
+prototype at /`<slug>`"**, **"show me"** (runs `npm run dev`), **"deploy it"**.
+One-time setup per laptop: Node + Claude Code + clone this repo + GitHub auth.
 
 ## The component catalog — check it first
 `src/screens/DesignSystem.jsx` renders a **live reference of every component the
@@ -72,5 +110,11 @@ nav discovers it automatically.
   so clicking them doesn't jump the page.
 
 ## Deploy
-`vercel` (or import the repo at vercel.com). Each branch gets its own preview
-URL — use branches to test variants with customers.
+Deploying is just **`git push` to `main`** — Vercel auto-builds and updates the
+live gallery (see "The gallery model"). No `vercel` CLI or dashboard needed.
+Feature branches still get their own Vercel preview URL for testing a variant
+before merging.
+
+⚠️ **Before sharing links externally, Deployment Protection must be OFF** in Vercel
+(Project → Settings → Deployment Protection → Vercel Authentication → Disabled),
+or visitors hit a Vercel login wall instead of the prototype.

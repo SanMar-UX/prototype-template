@@ -4,7 +4,7 @@
 > A handoff/continuity doc so any session — human or Claude — can pick up where we
 > left off. If you generated a prototype from this template, you can delete this file.
 
-_Last updated: 2026-06-16_
+_Last updated: 2026-06-23_
 
 ---
 
@@ -43,15 +43,32 @@ component catalog, and the conventions, so they're productive in minutes.
 
 **Publishing**
 - `SanMar-UX` GitHub org created.
-- Private repo **`SanMar-UX/prototype-template`** — code on `main`, marked as a
-  **Template repository** ("Use this template" enabled).
+- Repo **`SanMar-UX/prototype-template`** — code on `main`, marked as a
+  **Template repository**. Made **public** (2026-06-23) so the free Vercel Hobby
+  plan can deploy it (private-org repos require paid Vercel Pro).
+- **Vercel connected** — push to `main` auto-deploys; verified end-to-end
+  (commit → Production in ~9s). Claude runs the git; no Vercel CLI needed.
+
+**Deploy model decided: the _gallery_ (2026-06-23)**
+- **One repo / one Vercel project**, each prototype is a route
+  (`/simplified-returns`, `/pdp`, `/shareable-links`…), all under one domain.
+- Chosen because colleagues won't learn git/Vercel: the painful clone + Vercel
+  setup happens **once for the whole team**, not once per prototype. New prototype
+  = a new route pushed to this same repo, riding the existing Vercel connection.
+- Convention + workflow documented in **`CLAUDE.md`** ("The gallery model").
 
 ---
 
 ## ⬜ To do / outstanding
 
 **Publishing follow-ups**
-- [ ] **Vercel** — connect the repo for per-branch preview URLs (shareable prototype links).
+- [x] **Vercel** — connected; auto-deploy on push verified.
+- [ ] **Disable Deployment Protection** (Vercel → Project → Settings → Deployment
+      Protection → Vercel Authentication → Disabled). Until then, shared links hit a
+      Vercel login wall instead of the prototype. **Blocks external sharing.**
+- [ ] **Rename repo + Vercel project to `sanmar-prototypes`** so the gallery domain
+      reads `sanmar-prototypes.vercel.app/<slug>` instead of `prototype-template-…`.
+- [ ] **Build the gallery index `/` + first real route** (`/simplified-returns`).
 - [ ] **Add a 2nd org owner** when a colleague is onboarded (bus-factor insurance — currently sole owner).
 - [ ] **Invite colleagues** once they have GitHub accounts (they have `@sanmar.com` emails but no GitHub yet).
 
