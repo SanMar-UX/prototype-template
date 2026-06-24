@@ -57,6 +57,20 @@ component catalog, and the conventions, so they're productive in minutes.
   = a new route pushed to this same repo, riding the existing Vercel connection.
 - Convention + workflow documented in **`CLAUDE.md`** ("The gallery model").
 
+**Ownership tied to the SanMar identity (2026-06-23)**
+- Manager's instruction: everything SanMar must be under `c-nurgazybudaichiev@sanmar.com`.
+- That email was only a secondary email on the personal `nurgazik` account (no
+  separate account existed). Freed it, created GitHub account **`uxnur`**, made it
+  an **Owner** of `SanMar-UX` (kept `nurgazik` as backup owner). This repo now
+  **commits as `uxnur`**. (`uxnur` has no 2FA by choice — would be auto-removed if
+  the org ever enforces 2FA.)
+
+**Deploy gate — branch protection on `main` (2026-06-23)**
+- Require PR + 1 approval + **restrict who can push → `uxnur`** (admins exempt).
+- Effect: only the owner can merge to `main`, so **only the owner publishes to
+  production**. Teammates work on branches (preview URLs) and open PRs the owner
+  merges. Documented in `CLAUDE.md` ("Release gating").
+
 ---
 
 ## ⬜ To do / outstanding

@@ -115,6 +115,11 @@ live gallery (see "The gallery model"). No `vercel` CLI or dashboard needed.
 Feature branches still get their own Vercel preview URL for testing a variant
 before merging.
 
+**Release gating:** `main` is protected — only the repo owner (`uxnur`) / admins
+can merge, so only the owner publishes to production. The owner still pushes to
+`main` directly. Write-access teammates instead work on a **branch** (auto preview
+URL) and open a **pull request**; it goes live when the owner merges it.
+
 ⚠️ **Before sharing links externally, Deployment Protection must be OFF** in Vercel
 (Project → Settings → Deployment Protection → Vercel Authentication → Disabled),
 or visitors hit a Vercel login wall instead of the prototype.
