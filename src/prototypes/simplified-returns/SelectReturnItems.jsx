@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Container, Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
 import SiteHeader from '../../components/SiteHeader.jsx'
 import SiteFooter from '../../components/SiteFooter.jsx'
@@ -20,6 +21,9 @@ const ArrowLeft = ({ className }) => (
 )
 
 export default function SelectReturnItems() {
+  // Enabled once at least one item row is fully populated (see ReturnItemsTable).
+  const [canContinue, setCanContinue] = useState(false)
+
   return (
     <div className="d-flex flex-column min-vh-100">
       <SiteHeader loggedIn breadcrumbs={false} />
@@ -45,12 +49,12 @@ export default function SelectReturnItems() {
         <ReturnStepper current={1} />
 
         <div className="mt-4">
-          <ReturnItemsTable />
+          <ReturnItemsTable onValidityChange={setCanContinue} />
         </div>
 
-        {/* Disabled until the form is valid — enable logic comes later. */}
+        {/* Enabled once at least one item row is fully populated. */}
         <div className="d-flex justify-content-end mt-4">
-          <Button variant="primary" disabled>Continue</Button>
+          <Button variant="primary" disabled={!canContinue}>Continue</Button>
         </div>
       </Container>
 

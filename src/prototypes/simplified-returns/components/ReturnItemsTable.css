@@ -1,5 +1,8 @@
 /* Item-selection table for the Simplified Returns flow (prototype-local).
-   A 6-column CSS grid: Style · Color · Size · Ordered · Qty to Return · Reason. */
+   A 6-column CSS grid: Style · Color · Size · Ordered · Qty to Return · Reason.
+   The Qty + Reason columns are handled together by one cell that spans them, so
+   each qty input stays row-aligned with its reason block (which can grow taller
+   when a sub-reason is shown). */
 
 .returns-table {
   display: grid;
@@ -20,10 +23,36 @@
   color: #212529;
 }
 
-/* cells holding a form control sit a little tighter vertically */
-.returns-table__cell--control {
-  padding-top: 16px;
-  padding-bottom: 16px;
+/* Spans the Qty + Reason columns; holds one or more reason entries. */
+.returns-table__entries {
+  grid-column: 5 / 7;
+  padding: 16px 8px;
+  border-bottom: 1px solid #dee2e6;
+  color: #212529;
+}
+
+/* Each entry is a grid row: [qty input | reason block], matching the outer
+   Qty:Reason proportions so the columns line up. */
+.returns-entry-grid {
+  display: grid;
+  grid-template-columns: 2fr 5fr;
+  column-gap: 16px;
+  row-gap: 16px;
+  align-items: start;
+}
+
+.returns-entry__reason-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+/* Delete button sits to the right of the reason block, centered on the select. */
+.returns-entry__delete {
+  flex-shrink: 0;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
 }
 
 /* full-width warning banner separating returnable from non-returnable items */
