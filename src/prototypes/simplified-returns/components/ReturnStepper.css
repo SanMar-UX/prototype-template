@@ -1,0 +1,52 @@
+/* Chevron/arrow progress stepper for the Simplified Returns flow.
+   Prototype-local styles (lives with the prototype, not the shared theme).
+   Arrow shapes are pure CSS (clip-path) — no image assets. */
+
+.returns-stepper {
+  display: flex;
+  isolation: isolate;
+  margin: 0;
+  padding: 1px;                 /* faint outer hairline via the bg below */
+  background: #e6e6e6;          /* shows through the seams as the divider color */
+  list-style: none;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.returns-stepper__step {
+  flex: 1 0 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 9px 26px 10px;       /* extra side padding clears the arrow notch/point */
+  background: #f6f6f6;
+  color: #6a6a6a;
+  margin-right: -14px;          /* overlap the next step → ~2px chevron seam */
+  position: relative;
+  /* middle steps: notch on the left, point on the right */
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 0 100%, 16px 50%);
+}
+
+.returns-stepper__step:first-child {
+  /* flat left edge, point on the right */
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 0 100%);
+}
+
+.returns-stepper__step:last-child {
+  /* notch on the left, flat right edge */
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 16px 50%);
+  margin-right: 0;
+}
+
+/* earlier steps sit on top so their point overlaps the next step's notch */
+.returns-stepper__step:nth-child(1) { z-index: 3; }
+.returns-stepper__step:nth-child(2) { z-index: 2; }
+.returns-stepper__step:nth-child(3) { z-index: 1; }
+
+.returns-stepper__step--active {
+  background: #001829;          /* Figma: brand/surface/surface-primary-deep */
+  color: #fff;
+  font-weight: 700;
+}

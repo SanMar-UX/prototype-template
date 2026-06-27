@@ -1,0 +1,53 @@
+/* Item-selection table for the Simplified Returns flow (prototype-local).
+   A 6-column CSS grid: Style · Color · Size · Ordered · Qty to Return · Reason. */
+
+.returns-table {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 1fr 2fr 5fr;
+  font-size: 16px;
+}
+
+.returns-table__head {
+  font-weight: 700;
+  color: #212529;
+  padding: 12px 8px;
+  border-bottom: 1px solid #dee2e6;   /* table-border-color */
+}
+
+.returns-table__cell {
+  padding: 24px 8px;                   /* spacer-4 vertical, table padding-x */
+  border-bottom: 1px solid #dee2e6;
+  color: #212529;
+}
+
+/* cells holding a form control sit a little tighter vertically */
+.returns-table__cell--control {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+/* full-width warning banner separating returnable from non-returnable items */
+.returns-table__banner {
+  grid-column: 1 / -1;
+  margin: 16px 0;
+}
+
+.returns-table__color {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.returns-table__swatch {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+.returns-table__hint {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(36, 36, 36, 0.75);      /* form-text color */
+}

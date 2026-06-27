@@ -3,6 +3,9 @@ import { Routes, Route } from 'react-router-dom'
 import StarterPage from './screens/StarterPage.jsx'
 import DesignSystem from './screens/DesignSystem.jsx'
 
+// Prototypes — each self-contained under src/prototypes/<slug>/ (see CLAUDE.md).
+import SelectReturnItems from './prototypes/simplified-returns/SelectReturnItems.jsx'
+
 // =============================================================================
 // App — top-level routing.
 // =============================================================================
@@ -17,6 +20,9 @@ export default function App() {
     <Routes>
       <Route path="/" element={<StarterPage />} />
       <Route path="/design-system" element={<DesignSystem />} />
+
+      {/* Simplified Returns prototype */}
+      <Route path="/simplified-returns" element={<SelectReturnItems />} />
     </Routes>
   )
 }

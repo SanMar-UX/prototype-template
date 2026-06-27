@@ -34,19 +34,40 @@ This repo is **one app, many prototypes**. Each prototype is a route; they all
 deploy together to one Vercel project under one domain. There is NOT one repo per
 prototype.
 
-- **Homepage `/`** is the gallery index — a list/grid of cards linking to each
-  prototype. Add a card whenever you add a prototype.
-- **Each prototype = one route**: a screen in `src/screens/`, registered as a
-  `<Route>` in `src/App.jsx`, at a kebab-case path matching its name
-  (`/simplified-returns`, `/pdp`, `/shareable-links`).
-- **`/design-system`** stays the shared component catalog — reuse from it.
+**Shared foundation (the "template") — every prototype reuses this; no prototype
+changes it:**
+- `src/styles/` — design tokens + Bootstrap theme
+- `src/components/` — shared chrome (`SiteHeader`, `SiteFooter`)
+- `src/screens/DesignSystem.jsx` — the component catalog at `/design-system`
+- `src/screens/StarterPage.jsx` — the blank starter
+
+**Each prototype is its own self-contained world** under `src/prototypes/<slug>/`.
+Everything that belongs to that prototype — screens, mock data, prototype-only
+components — lives inside its folder and nowhere else:
+```
+src/prototypes/simplified-returns/
+├── SimplifiedReturns.jsx   # the screen(s) — the route entry
+├── data/                   # mock data for THIS prototype only
+└── components/             # components used ONLY by this prototype
+```
+
+**The one rule that keeps prototypes isolated:**
+> A prototype folder MAY import from the shared foundation, but the shared
+> foundation NEVER imports from a prototype, and prototypes NEVER import from each
+> other.
+
+That dependency direction guarantees each prototype is a separate world — you can
+delete a prototype's whole folder and nothing else breaks. `/design-system` stays
+the shared catalog to crib from.
 
 ### Adding a prototype (the repeatable recipe)
 1. **`git pull` first** — this is a shared repo; get teammates' latest work.
-2. Create `src/screens/<Name>.jsx` (start from `StarterPage` — real header/footer).
+2. Make a folder `src/prototypes/<slug>/` with `<Name>.jsx` (start from
+   `StarterPage`), plus `data/` and `components/` subfolders as needed — keep
+   **everything** prototype-specific inside this one folder.
 3. Register `<Route path="/<slug>" element={<Name/>} />` in `src/App.jsx`.
 4. Add a card linking to `/<slug>` on the gallery index (`/`).
-5. Build the screens with react-bootstrap + existing tokens (see the catalog).
+5. Build with react-bootstrap + shared tokens (see the catalog).
 
 ### Deploying (what "deploy it" means)
 Deploy = **push to `main`**. Vercel's GitHub webhook auto-builds (~10s) and updates
