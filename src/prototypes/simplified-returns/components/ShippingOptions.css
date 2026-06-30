@@ -1,0 +1,23 @@
+/* Return shipping method picker (prototype-local). Mirrors the Figma "Shipping
+   options" component: a muted card with a radio group; the selected option
+   reveals its detail line. */
+
+.shipping-options {
+  background: #f8f9fa;             /* surface-muted */
+  border-radius: 4px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.shipping-options__title {
+  font-weight: 700;
+}
+
+.shipping-options__detail {
+  padding-left: 24px;             /* aligns under the radio label */
+  margin-top: 4px;
+  color: rgba(36, 36, 36, 0.75);  /* body-secondary */
+  white-space: pre-line;          /* render the address line breaks */
+}

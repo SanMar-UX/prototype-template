@@ -1,28 +1,15 @@
-import { Fragment, useState, useEffect } from 'react'
+import { Fragment } from 'react'
 import { Form, Alert, Button } from 'react-bootstrap'
 import { PRODUCTS } from '../data/products.js'
 import { RETURN_REASONS } from '../data/returnReasons.js'
+import { useReturns } from '../state/ReturnsContext.jsx'
+import { subReasonsOf, isReplaceable, isEnabled, blankEntry, reasonChosen, totalQty, entryStarted, entryComplete } from '../state/returnsModel.js'
 import './ReturnItemsTable.css'
 
 const RETURNABLE = PRODUCTS.filter((p) => p.returnable)
 const NON_RETURNABLE = PRODUCTS.filter((p) => !p.returnable)
 
 const COLUMNS = ['Style', 'Color', 'Size', 'Ordered', 'Qty to Return', 'Reason']
-
-const subReasonsOf = (reasonId) => RETURN_REASONS.find((r) => r.id === reasonId)?.subReasons
-
-// Replacing makes no sense for these reasons, so the checkbox is hidden for them.
-const NON_REPLACEABLE = new Set(['no-longer-needed', 'late-shipment'])
-const isReplaceable = (reasonId) => reasonId !== '' && !NON_REPLACEABLE.has(reasonId)
-
-// Enabled = the shopper can actually pick a return for it (returnable + units left).
-const isEnabled = (p) => p.returnable && p.returnableQty > 0
-const blankEntry = () => ({ qty: '', reason: '', subReason: '', replace: false })
-
-// A reason is "chosen" once it (and its sub-reason, if any) is selected.
-const reasonChosen = (e) => e.reason !== '' && (!subReasonsOf(e.reason) || e.subReason !== '')
-// An entry is "complete" for submission once it also has a qty > 0.
-const entryComplete = (e) => Number(e.qty) > 0 && reasonChosen(e)
 
 // Inlined Bootstrap Icons, matching the codebase pattern.
 const WarningIcon = () => (
@@ -64,7 +51,7 @@ const Hint = ({ item, alreadyReturned }) => (
 )
 
 // One item row = the four text cells + a cell spanning the Qty + Reason columns.
-function Row({ item, entries, onEntriesChange }) {
+function Row({ item, entries, onEntriesChange, showErrors }) {
   const alreadyReturned = item.orderedQty - item.returnableQty
   const showHint = item.returnable && alreadyReturned > 0
 
@@ -91,9 +78,9 @@ function Row({ item, entries, onEntriesChange }) {
     )
   }
 
-  const totalQty = entries.reduce((sum, e) => sum + (Number(e.qty) || 0), 0)
-  const exceedsOrdered = totalQty > item.orderedQty
-  const addDisabled = totalQty >= item.orderedQty                   // all ordered qty already allocated
+  const total = totalQty(entries)
+  const exceedsReturnable = total > item.returnableQty
+  const addDisabled = total >= item.returnableQty                  // all returnable qty already allocated
 
   const updateEntry = (i, changes) =>
     onEntriesChange(entries.map((e, idx) => (idx === i ? { ...e, ...changes } : e)))
@@ -112,6 +99,11 @@ function Row({ item, entries, onEntriesChange }) {
             const chosen = reasonChosen(entry)
             const showCheckbox = chosen && isReplaceable(entry.reason)
             const showAddLink = isLast && chosen
+            // On Continue, a started-but-incomplete entry flags its missing fields.
+            const needsAttention = showErrors && entryStarted(entry) && !entryComplete(entry)
+            const qtyMissing = needsAttention && !(Number(entry.qty) > 0)
+            const reasonMissing = needsAttention && entry.reason === ''
+            const subMissing = needsAttention && entry.reason !== '' && Boolean(entrySubReasons) && entry.subReason === ''
             return (
               <Fragment key={i}>
                 <div>
@@ -120,12 +112,12 @@ function Row({ item, entries, onEntriesChange }) {
                     min={0}
                     value={entry.qty}
                     onChange={(e) => updateEntry(i, { qty: e.target.value })}
-                    isInvalid={exceedsOrdered}
+                    isInvalid={exceedsReturnable || qtyMissing}
                     aria-label={`Quantity to return for ${item.styleNumber} ${item.colorName} ${item.size}, reason ${i + 1}`}
                   />
-                  {exceedsOrdered && isLast && (
+                  {(qtyMissing || (exceedsReturnable && isLast)) && (
                     <Form.Control.Feedback type="invalid">
-                      Can&apos;t return more than ordered
+                      {qtyMissing ? 'Quantity is required' : 'Value entered exceeds the returnable quantity'}
                     </Form.Control.Feedback>
                   )}
                   {showHint && isFirst && <Hint item={item} alreadyReturned={alreadyReturned} />}
@@ -136,6 +128,7 @@ function Row({ item, entries, onEntriesChange }) {
                     <Form.Select
                       value={entry.reason}
                       onChange={(e) => updateEntry(i, { reason: e.target.value, subReason: '', replace: false })}
+                      isInvalid={reasonMissing}
                       aria-label={`Return reason ${i + 1} for ${item.styleNumber} ${item.colorName} ${item.size}`}
                     >
                       <option value="" disabled>Choose a return reason</option>
@@ -143,18 +136,27 @@ function Row({ item, entries, onEntriesChange }) {
                         <option key={r.id} value={r.id}>{r.label}</option>
                       ))}
                     </Form.Select>
+                    {reasonMissing && (
+                      <Form.Control.Feedback type="invalid">Choose a reason</Form.Control.Feedback>
+                    )}
                     {entrySubReasons && (
-                      <Form.Select
-                        className="mt-2"
-                        value={entry.subReason}
-                        onChange={(e) => updateEntry(i, { subReason: e.target.value })}
-                        aria-label={`Additional reason ${i + 1}`}
-                      >
-                        <option value="" disabled>Choose a sub-reason</option>
-                        {entrySubReasons.map((s) => (
-                          <option key={s.id} value={s.id}>{s.label}</option>
-                        ))}
-                      </Form.Select>
+                      <>
+                        <Form.Select
+                          className="mt-2"
+                          value={entry.subReason}
+                          onChange={(e) => updateEntry(i, { subReason: e.target.value })}
+                          isInvalid={subMissing}
+                          aria-label={`Additional reason ${i + 1}`}
+                        >
+                          <option value="" disabled>Choose a sub-reason</option>
+                          {entrySubReasons.map((s) => (
+                            <option key={s.id} value={s.id}>{s.label}</option>
+                          ))}
+                        </Form.Select>
+                        {subMissing && (
+                          <Form.Control.Feedback type="invalid">Choose a sub-reason</Form.Control.Feedback>
+                        )}
+                      </>
                     )}
 
                     {(showCheckbox || showAddLink) && (
@@ -212,30 +214,11 @@ function Row({ item, entries, onEntriesChange }) {
   )
 }
 
-export default function ReturnItemsTable({ onValidityChange }) {
-  // Entries live here (lifted) so the screen can react to overall validity.
-  const [entriesById, setEntriesById] = useState(() =>
-    Object.fromEntries(PRODUCTS.filter(isEnabled).map((p) => [p.id, [blankEntry()]]))
-  )
-
-  const setEntriesFor = (id) => (next) =>
-    setEntriesById((prev) => ({ ...prev, [id]: next }))
-
-  // Good to continue if at least one product has a complete entry and isn't over
-  // its ordered quantity. (Partially-filled extra entries are ignored.)
-  const hasValidEntry = PRODUCTS.some((p) => {
-    if (!isEnabled(p)) return false
-    const entries = entriesById[p.id]
-    const total = entries.reduce((s, e) => s + (Number(e.qty) || 0), 0)
-    return total <= p.orderedQty && entries.some(entryComplete)
-  })
-
-  useEffect(() => {
-    onValidityChange?.(hasValidEntry)
-  }, [hasValidEntry, onValidityChange])
+export default function ReturnItemsTable({ showErrors }) {
+  const { entriesById, setEntriesFor } = useReturns()
 
   const renderRow = (item) => (
-    <Row key={item.id} item={item} entries={entriesById[item.id]} onEntriesChange={setEntriesFor(item.id)} />
+    <Row key={item.id} item={item} entries={entriesById[item.id]} onEntriesChange={setEntriesFor(item.id)} showErrors={showErrors} />
   )
 
   return (

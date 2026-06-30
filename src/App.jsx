@@ -4,7 +4,11 @@ import StarterPage from './screens/StarterPage.jsx'
 import DesignSystem from './screens/DesignSystem.jsx'
 
 // Prototypes — each self-contained under src/prototypes/<slug>/ (see CLAUDE.md).
+import ReturnsLayout from './prototypes/simplified-returns/ReturnsLayout.jsx'
 import SelectReturnItems from './prototypes/simplified-returns/SelectReturnItems.jsx'
+import AddDetails from './prototypes/simplified-returns/AddDetails.jsx'
+import ReviewAndSubmit from './prototypes/simplified-returns/ReviewAndSubmit.jsx'
+import ConfirmationScreen from './prototypes/simplified-returns/ConfirmationScreen.jsx'
 
 // =============================================================================
 // App — top-level routing.
@@ -21,8 +25,13 @@ export default function App() {
       <Route path="/" element={<StarterPage />} />
       <Route path="/design-system" element={<DesignSystem />} />
 
-      {/* Simplified Returns prototype */}
-      <Route path="/simplified-returns" element={<SelectReturnItems />} />
+      {/* Simplified Returns prototype — provider wraps all steps (state survives navigation) */}
+      <Route path="/simplified-returns" element={<ReturnsLayout />}>
+        <Route index element={<SelectReturnItems />} />
+        <Route path="details" element={<AddDetails />} />
+        <Route path="review" element={<ReviewAndSubmit />} />
+        <Route path="confirmation" element={<ConfirmationScreen />} />
+      </Route>
     </Routes>
   )
 }

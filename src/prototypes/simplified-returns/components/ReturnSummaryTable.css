@@ -1,0 +1,38 @@
+/* Read-only return-lines table (prototype-local; shared by Review + Confirmation). */
+
+.summary-table {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 0.9fr 0.7fr 2.6fr 1fr 1.3fr 1fr;
+  font-size: 16px;
+}
+
+.summary-table__head {
+  font-weight: 700;
+  padding: 12px 8px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.summary-table__cell {
+  padding: 16px 8px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.summary-table__head--num,
+.summary-table__cell--num {
+  text-align: right;
+}
+
+.summary-table__swatch {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+.summary-table__desc {
+  margin-top: 4px;
+  font-style: italic;
+  color: rgba(36, 36, 36, 0.75);
+}
