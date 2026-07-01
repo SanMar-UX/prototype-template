@@ -117,7 +117,7 @@ function TablePager({ shown, total }) {
   )
 }
 
-function OrdersPanel({ onInitiateReturn }) {
+function OrdersPanel({ onInitiateReturn, onViewOrder }) {
   return (
     <>
       <SearchAndFilters heading="Search Your Orders" numberLabel="Sales Order Number" numberPlaceholder="Enter Sales Order Number" firstFilterLabel="Order Status" />
@@ -130,7 +130,7 @@ function OrdersPanel({ onInitiateReturn }) {
         </span>
       </Alert>
 
-      <Table hover responsive className="oh-table align-middle">
+      <Table hover responsive className="oh-table oh-table--clickable align-middle">
         <thead>
           <tr>
             <th>Status</th><th>Order No</th><th>PO No</th><th>Date Placed</th>
@@ -139,7 +139,7 @@ function OrdersPanel({ onInitiateReturn }) {
         </thead>
         <tbody>
           {ORDERS.map((o) => (
-            <tr key={o.orderNo}>
+            <tr key={o.orderNo} onClick={() => onViewOrder(o)}>
               <td><CheckCircle /></td>
               <td><a href="#" onClick={demo} className="text-decoration-none">{o.orderNo}</a></td>
               <td>{o.poNo}</td>
@@ -148,7 +148,7 @@ function OrdersPanel({ onInitiateReturn }) {
               <td><a href="#" onClick={demo} className="text-decoration-none">Track Packages</a></td>
               <td className="text-end">
                 {o.returnable ? (
-                  <Button variant="link" className="p-0" aria-label={`Initiate return for ${o.orderNo}`} onClick={() => onInitiateReturn(o)}>
+                  <Button variant="link" className="p-0" aria-label={`Initiate return for ${o.orderNo}`} onClick={(e) => { e.stopPropagation(); onInitiateReturn(o) }}>
                     <ReturnArrow />
                   </Button>
                 ) : (
@@ -215,6 +215,10 @@ export default function OrderHistory() {
     setViewedReturn(ret)                      // carry the chosen return to the detail screen
     navigate('/simplified-returns/view')
   }
+  const viewOrder = (order) => {
+    setOrder(order)                           // carry the chosen order to the order-detail screen
+    navigate('/simplified-returns/order')
+  }
 
   return (
     <div className="d-flex flex-column min-vh-100">
@@ -238,7 +242,7 @@ export default function OrderHistory() {
               <button className={`oh-tab${tab === 'returns' ? ' oh-tab--active' : ''}`} onClick={() => setTab('returns')}>Returns</button>
             </div>
 
-            {tab === 'orders' ? <OrdersPanel onInitiateReturn={initiateReturn} /> : <ReturnsPanel onViewReturn={viewReturn} />}
+            {tab === 'orders' ? <OrdersPanel onInitiateReturn={initiateReturn} onViewOrder={viewOrder} /> : <ReturnsPanel onViewReturn={viewReturn} />}
           </div>
         </div>
       </Container>

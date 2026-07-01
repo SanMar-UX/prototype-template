@@ -1,0 +1,109 @@
+/* Order detail screen — prototype-local (mirrors the return-detail layout). */
+
+.od-crumb {
+  font-size: 20px;
+  color: #6c757d;
+}
+
+.od-layout {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.od-back {
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
+.od-card {
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  background: #fff;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.od-card__head {
+  background: #f2f4f6;
+  padding: 14px 20px;
+  font-size: 18px;
+  font-weight: 600;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.od-card__body {
+  padding: 20px;
+}
+
+/* order summary grid */
+.od-summary {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr auto;
+  gap: 20px;
+  align-items: start;
+}
+
+.od-label {
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #6c757d;
+  margin-bottom: 4px;
+}
+
+.od-ordno {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+/* shipment meta line: label left, subtotal/carrier/tracking pushed right */
+.od-ship-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 32px;
+}
+
+.od-ship-meta > :first-child {
+  margin-right: auto;
+}
+
+/* item / returns tables */
+.od-items td,
+.od-items thead th {
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.od-total-tr td {
+  border-top: 2px solid #dee2e6;
+}
+
+.od-swatch {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* fees */
+.od-fee-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #eef0f2;
+}
+
+.od-fee-total {
+  padding-top: 12px;
+  font-weight: 700;
+}
+
+.od-order-total {
+  font-size: 18px;
+}
