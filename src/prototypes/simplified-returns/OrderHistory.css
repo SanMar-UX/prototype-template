@@ -72,6 +72,11 @@
   padding-bottom: 14px;
 }
 
+/* returns rows are clickable -> return detail */
+.oh-table--clickable tbody tr {
+  cursor: pointer;
+}
+
 /* pagination pills */
 .oh-page {
   min-width: 30px;

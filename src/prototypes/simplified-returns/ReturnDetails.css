@@ -1,0 +1,131 @@
+/* Return detail (view-a-return) screen — prototype-local. */
+
+.rd-crumb {
+  font-size: 20px;
+  color: #6c757d;
+}
+
+.rd-layout {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.rd-back {
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
+.rd-card {
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  background: #fff;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.rd-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f2f4f6;
+  padding: 14px 20px;
+  font-size: 18px;
+  font-weight: 600;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.rd-card__body {
+  padding: 20px;
+}
+
+/* a bit more vertical breathing room per item row (matches Order History) */
+.rd-items td,
+.rd-items thead th {
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+/* color swatch in the items table (matches the place-flow tables) */
+.rd-swatch {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* order summary grid */
+.rd-summary {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr 1.5fr;
+  gap: 20px;
+  align-items: stretch;
+}
+
+.rd-label {
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #6c757d;
+  margin-bottom: 4px;
+}
+
+.rd-ordno {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.rd-summary__actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  text-align: right;
+}
+
+/* return-details label/value grid */
+.rd-meta {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  row-gap: 10px;
+  column-gap: 16px;
+  margin-bottom: 20px;
+}
+
+/* how-to-pack box */
+.rd-pack {
+  background: #f8f9fa;
+  border: 1px solid #eef0f2;
+  border-radius: 6px;
+  padding: 16px 20px;
+}
+
+.rd-pack ol {
+  margin: 8px 0 0;
+  padding-left: 20px;
+}
+
+.rd-pack li {
+  margin-bottom: 4px;
+}
+
+/* fees */
+.rd-fee-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #eef0f2;
+}
+
+.rd-fee-total {
+  padding-top: 12px;
+  font-weight: 700;
+}
+
+.rd-order-total {
+  font-size: 18px;
+}

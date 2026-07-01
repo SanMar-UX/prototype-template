@@ -6,6 +6,7 @@ import DesignSystem from './screens/DesignSystem.jsx'
 // Prototypes — each self-contained under src/prototypes/<slug>/ (see CLAUDE.md).
 import ReturnsLayout from './prototypes/simplified-returns/ReturnsLayout.jsx'
 import OrderHistory from './prototypes/simplified-returns/OrderHistory.jsx'
+import ReturnDetails from './prototypes/simplified-returns/ReturnDetails.jsx'
 import SelectReturnItems from './prototypes/simplified-returns/SelectReturnItems.jsx'
 import AddDetails from './prototypes/simplified-returns/AddDetails.jsx'
 import ReviewAndSubmit from './prototypes/simplified-returns/ReviewAndSubmit.jsx'
@@ -29,6 +30,7 @@ export default function App() {
       {/* Simplified Returns prototype — provider wraps all steps (state survives navigation) */}
       <Route path="/simplified-returns" element={<ReturnsLayout />}>
         <Route index element={<OrderHistory />} />
+        <Route path="view" element={<ReturnDetails />} />
         <Route path="new" element={<SelectReturnItems />} />
         <Route path="details" element={<AddDetails />} />
         <Route path="review" element={<ReviewAndSubmit />} />

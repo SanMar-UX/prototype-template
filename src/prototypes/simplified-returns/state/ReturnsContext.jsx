@@ -11,6 +11,7 @@ export function ReturnsProvider({ children }) {
   const [entriesById, setEntriesById] = useState(initialEntriesById)
   const [shipMethod, setShipMethod] = useState(null)   // selected shipping option id
   const [order, setOrder] = useState(null)             // the order the return was started from
+  const [viewedReturn, setViewedReturn] = useState(null) // the return being viewed (Returns tab -> detail)
 
   // Returns a setter bound to one product's entries array.
   const setEntriesFor = (id) => (next) =>
@@ -23,6 +24,8 @@ export function ReturnsProvider({ children }) {
     setShipMethod,
     order,
     setOrder,
+    viewedReturn,
+    setViewedReturn,
     hasValidReturn: hasValidReturn(entriesById),
   }
 

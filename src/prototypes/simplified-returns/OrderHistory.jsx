@@ -6,7 +6,11 @@ import SiteFooter from '../../components/SiteFooter.jsx'
 import AccountSidebar from './components/AccountSidebar.jsx'
 import { useReturns } from './state/ReturnsContext.jsx'
 import { ORDERS, ORDERS_TOTAL } from './data/orders.js'
+import { RETURNS, RETURNS_TOTAL } from './data/returns.js'
 import './OrderHistory.css'
+
+const demo = (e) => e.preventDefault()
+const money = (n) => '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 
 // Inlined Bootstrap Icons.
 const CheckCircle = () => (
@@ -14,6 +18,18 @@ const CheckCircle = () => (
     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
   </svg>
 )
+const XCircle = () => (
+  <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" className="text-danger" aria-hidden="true">
+    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+  </svg>
+)
+const ClockCircle = () => (
+  <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" className="text-warning" aria-hidden="true">
+    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
+  </svg>
+)
+const StatusIcon = ({ status }) => (status === 'approved' ? <CheckCircle /> : status === 'rejected' ? <XCircle /> : <ClockCircle />)
+
 const ReturnArrow = ({ className }) => (
   <svg className={className} width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
     <path fillRule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5" />
@@ -30,19 +46,14 @@ const InfoIcon = () => (
   </svg>
 )
 
-const demo = (e) => e.preventDefault()
-
-function OrdersPanel({ onInitiateReturn }) {
+// Shared search + filter controls (labels differ per tab).
+function SearchAndFilters({ heading, numberLabel, numberPlaceholder, firstFilterLabel }) {
   return (
     <>
-      {/* Search your orders */}
-      <div className="mb-2 fw-semibold">Search Your Orders</div>
+      <div className="mb-2 fw-semibold">{heading}</div>
       <div className="d-flex flex-wrap gap-2 align-items-center">
-        <Form.Select style={{ maxWidth: 240 }} defaultValue="so">
-          <option value="so">Sales Order Number</option>
-          <option value="po">PO Number</option>
-        </Form.Select>
-        <Form.Control style={{ maxWidth: 320 }} placeholder="Enter Sales Order Number" />
+        <Form.Select style={{ maxWidth: 240 }} defaultValue="n"><option value="n">{numberLabel}</option></Form.Select>
+        <Form.Control style={{ maxWidth: 320 }} placeholder={numberPlaceholder} />
         <Button variant="primary">Help Me Find It</Button>
       </div>
       <div className="d-flex justify-content-end my-2">
@@ -51,14 +62,13 @@ function OrdersPanel({ onInitiateReturn }) {
         </a>
       </div>
 
-      {/* Filters */}
       <div className="oh-filters mb-4">
         <Form.Group>
-          <Form.Label className="small mb-1">Order Status</Form.Label>
+          <Form.Label className="small mb-1">{firstFilterLabel}</Form.Label>
           <Form.Select defaultValue="all"><option value="all">All</option></Form.Select>
         </Form.Group>
         <Form.Group>
-          <Form.Label className="small mb-1">Order Placed</Form.Label>
+          <Form.Label className="small mb-1">Placed</Form.Label>
           <Form.Select defaultValue="30"><option value="30">Previous 30 days</option><option value="90">Previous 90 days</option></Form.Select>
         </Form.Group>
         <Form.Group>
@@ -81,6 +91,36 @@ function OrdersPanel({ onInitiateReturn }) {
           <Button variant="primary">Search</Button>
         </div>
       </div>
+    </>
+  )
+}
+
+function TablePager({ shown, total }) {
+  return (
+    <div className="d-flex flex-wrap justify-content-between align-items-center gap-3">
+      <span className="text-secondary small">Showing {shown} of {total}</span>
+      <nav className="d-flex align-items-center gap-1">
+        <a href="#" onClick={demo} className="oh-page">&laquo;</a>
+        <a href="#" onClick={demo} className="oh-page">&lsaquo;</a>
+        <span className="oh-page oh-page--active">1</span>
+        {[2, 3, 4, 5].map((n) => <a key={n} href="#" onClick={demo} className="oh-page">{n}</a>)}
+        <a href="#" onClick={demo} className="oh-page">&rsaquo;</a>
+        <a href="#" onClick={demo} className="oh-page">&raquo;</a>
+      </nav>
+      <div className="d-flex align-items-center gap-2">
+        <span className="small text-secondary">Items Per Page</span>
+        <Form.Select size="sm" style={{ width: 80 }} defaultValue="20">
+          <option>20</option><option>50</option><option>100</option>
+        </Form.Select>
+      </div>
+    </div>
+  )
+}
+
+function OrdersPanel({ onInitiateReturn }) {
+  return (
+    <>
+      <SearchAndFilters heading="Search Your Orders" numberLabel="Sales Order Number" numberPlaceholder="Enter Sales Order Number" firstFilterLabel="Order Status" />
 
       <Alert variant="primary" className="d-flex gap-2 align-items-start">
         <InfoIcon />
@@ -108,12 +148,7 @@ function OrdersPanel({ onInitiateReturn }) {
               <td><a href="#" onClick={demo} className="text-decoration-none">Track Packages</a></td>
               <td className="text-end">
                 {o.returnable ? (
-                  <Button
-                    variant="link"
-                    className="p-0"
-                    aria-label={`Initiate return for ${o.orderNo}`}
-                    onClick={() => onInitiateReturn(o)}
-                  >
+                  <Button variant="link" className="p-0" aria-label={`Initiate return for ${o.orderNo}`} onClick={() => onInitiateReturn(o)}>
                     <ReturnArrow />
                   </Button>
                 ) : (
@@ -125,48 +160,60 @@ function OrdersPanel({ onInitiateReturn }) {
         </tbody>
       </Table>
 
-      <div className="d-flex flex-wrap justify-content-between align-items-center gap-3">
-        <span className="text-secondary small">Showing {ORDERS.length} of {ORDERS_TOTAL}</span>
-        <nav className="d-flex align-items-center gap-1">
-          <a href="#" onClick={demo} className="oh-page">&laquo;</a>
-          <a href="#" onClick={demo} className="oh-page">&lsaquo;</a>
-          <span className="oh-page oh-page--active">1</span>
-          {[2, 3, 4, 5].map((n) => <a key={n} href="#" onClick={demo} className="oh-page">{n}</a>)}
-          <a href="#" onClick={demo} className="oh-page">&rsaquo;</a>
-          <a href="#" onClick={demo} className="oh-page">&raquo;</a>
-        </nav>
-        <div className="d-flex align-items-center gap-2">
-          <span className="small text-secondary">Items Per Page</span>
-          <Form.Select size="sm" style={{ width: 80 }} defaultValue="20">
-            <option>20</option><option>50</option><option>100</option>
-          </Form.Select>
-        </div>
-      </div>
+      <TablePager shown={ORDERS.length} total={ORDERS_TOTAL} />
     </>
   )
 }
 
-function ReturnsPanel() {
-  // The "view a submitted return" flow will populate this next.
+function ReturnsPanel({ onViewReturn }) {
   return (
-    <div className="text-secondary py-5 text-center">
-      Your submitted returns will appear here.
-    </div>
+    <>
+      <SearchAndFilters heading="Return Your Orders" numberLabel="Return Order Number" numberPlaceholder="Enter Return Order Number" firstFilterLabel="Type" />
+
+      <Table hover responsive className="oh-table oh-table--clickable align-middle">
+        <thead>
+          <tr>
+            <th>Status</th><th>Online Ref No</th><th>Order No</th><th>Original Order No</th>
+            <th>Shipping option</th><th>Date Placed</th><th className="text-end">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          {RETURNS.map((r) => (
+            <tr key={r.onlineRefNo + r.orderNo} onClick={() => onViewReturn(r)}>
+              <td><StatusIcon status={r.status} /></td>
+              <td>{r.onlineRefNo}</td>
+              <td><a href="#" onClick={demo} className="text-decoration-none">{r.orderNo}</a></td>
+              <td><a href="#" onClick={demo} className="text-decoration-none">{r.originalOrderNo}</a></td>
+              <td>{r.shippingOption}</td>
+              <td>{r.datePlaced}</td>
+              <td className="text-end">{money(r.amount)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+
+      <TablePager shown={RETURNS.length} total={RETURNS_TOTAL} />
+    </>
   )
 }
 
 // =============================================================================
 // OrderHistory — the "My Order History" account page. Entry point for both the
-// place-a-return flow (Initiate-return arrow) and the view-a-return flow (Returns tab).
+// place-a-return flow (Orders tab, Initiate-return arrow) and the view-a-return
+// flow (Returns tab).
 // =============================================================================
 export default function OrderHistory() {
   const navigate = useNavigate()
-  const { setOrder } = useReturns()
+  const { setOrder, setViewedReturn } = useReturns()
   const [tab, setTab] = useState('orders')
 
   const initiateReturn = (order) => {
     setOrder(order)                          // carry the chosen order through the flow
     navigate('/simplified-returns/new')
+  }
+  const viewReturn = (ret) => {
+    setViewedReturn(ret)                      // carry the chosen return to the detail screen
+    navigate('/simplified-returns/view')
   }
 
   return (
@@ -191,7 +238,7 @@ export default function OrderHistory() {
               <button className={`oh-tab${tab === 'returns' ? ' oh-tab--active' : ''}`} onClick={() => setTab('returns')}>Returns</button>
             </div>
 
-            {tab === 'orders' ? <OrdersPanel onInitiateReturn={initiateReturn} /> : <ReturnsPanel />}
+            {tab === 'orders' ? <OrdersPanel onInitiateReturn={initiateReturn} /> : <ReturnsPanel onViewReturn={viewReturn} />}
           </div>
         </div>
       </Container>
