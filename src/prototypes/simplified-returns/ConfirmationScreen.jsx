@@ -45,12 +45,13 @@ const PACK_STEPS = [
 // ConfirmationScreen — post-submit confirmation for the Simplified Returns flow.
 // =============================================================================
 export default function ConfirmationScreen() {
-  const { entriesById, shipMethod } = useReturns()
+  const { entriesById, shipMethod, order } = useReturns()
   const items = returnItems(entriesById)
 
   // State lost (refresh / direct deep link) → restart at step 1.
   if (items.length === 0) return <Navigate to="/simplified-returns" replace />
 
+  const orderNo = order?.orderNo ?? 'SO-9190092'
   const variant = shippingVariant(entriesById)
   const selected = shipMethod ?? variant.options[0]?.id
 
@@ -65,7 +66,7 @@ export default function ConfirmationScreen() {
   const downloadLabel = usesSanmarLabel ? 'Download Shipping Documents' : 'Download Packing List'
 
   const handleDownload = () =>
-    generateReturnPdf({ items, boxes, includeLabels: usesSanmarLabel, refNo: 'WRR-9112', orderNo: 'SO-9190092' })
+    generateReturnPdf({ items, boxes, includeLabels: usesSanmarLabel, refNo: 'WRR-9112', orderNo })
 
   return (
     <div className="d-flex flex-column min-vh-100">
@@ -93,7 +94,7 @@ export default function ConfirmationScreen() {
           <div className="fw-bold">Web Return Reference&nbsp;#:</div>
           <div><a href="#" onClick={(e) => e.preventDefault()}>WRR-9112</a></div>
           <div className="fw-bold">Original order:</div>
-          <div><a href="#" onClick={(e) => e.preventDefault()}>SO-9190092</a></div>
+          <div><a href="#" onClick={(e) => e.preventDefault()}>{orderNo}</a></div>
           <div className="fw-bold">Submitted:</div>
           <div>February 28, 2026 at 2:34PM</div>
           <div className="fw-bold">Ship to Warehouse:</div>

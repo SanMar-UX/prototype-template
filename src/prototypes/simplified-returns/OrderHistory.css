@@ -1,0 +1,96 @@
+/* My Order History account page (prototype-local). */
+
+.oh-crumb {
+  font-size: 20px;
+  color: #6c757d;
+}
+
+/* sidebar + main */
+.oh-layout {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.oh-main {
+  background: #fff;
+}
+
+/* Orders / Returns sub-tabs */
+.oh-tabs {
+  display: flex;
+  gap: 24px;
+  border-bottom: 1px solid #dee2e6;
+  margin: 8px 0 24px;
+}
+
+.oh-tab {
+  background: none;
+  border: 0;
+  padding: 8px 2px;
+  margin-bottom: -1px;
+  color: var(--bs-primary);
+  border-bottom: 2px solid transparent;
+}
+
+.oh-tab--active {
+  color: #212529;
+  font-weight: 600;
+  border-bottom-color: #212529;
+}
+
+/* filter grid */
+.oh-filters {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  align-items: end;
+}
+
+.oh-filters__action {
+  grid-column: 4;
+  justify-self: end;
+}
+
+/* table header shading to match the design */
+.oh-table thead th {
+  background: #f2f4f6;
+  border-bottom: 1px solid #dee2e6;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.oh-table td {
+  font-size: 15px;
+}
+
+/* a bit more vertical breathing room per row */
+.oh-table td,
+.oh-table thead th {
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+/* pagination pills */
+.oh-page {
+  min-width: 30px;
+  height: 30px;
+  padding: 0 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  color: var(--bs-primary);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.oh-page:hover {
+  background: #f2f4f6;
+}
+
+.oh-page--active {
+  background: var(--bs-primary);
+  color: #fff;
+}

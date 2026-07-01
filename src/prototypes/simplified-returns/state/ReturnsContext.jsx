@@ -10,6 +10,7 @@ const ReturnsContext = createContext(null)
 export function ReturnsProvider({ children }) {
   const [entriesById, setEntriesById] = useState(initialEntriesById)
   const [shipMethod, setShipMethod] = useState(null)   // selected shipping option id
+  const [order, setOrder] = useState(null)             // the order the return was started from
 
   // Returns a setter bound to one product's entries array.
   const setEntriesFor = (id) => (next) =>
@@ -20,6 +21,8 @@ export function ReturnsProvider({ children }) {
     setEntriesFor,
     shipMethod,
     setShipMethod,
+    order,
+    setOrder,
     hasValidReturn: hasValidReturn(entriesById),
   }
 

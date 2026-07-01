@@ -1,4 +1,6 @@
+import { useNavigate } from 'react-router-dom'
 import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
+import { useReturns } from '../state/ReturnsContext.jsx'
 
 // Shared page header for the Simplified Returns flow: an (inert) back-to-order-
 // history button + the order title. Used by every step screen.
@@ -10,17 +12,20 @@ const ArrowLeft = ({ className }) => (
   </svg>
 )
 
-export default function ReturnPageHeader({ title = 'Return - Order #SO-9190092' }) {
+export default function ReturnPageHeader() {
+  const navigate = useNavigate()
+  const { order } = useReturns()
+  const title = `Return - Order #${order?.orderNo ?? 'SO-9190092'}`
   return (
     <div className="d-flex align-items-center gap-3 mb-4">
       <OverlayTrigger placement="top" overlay={<Tooltip>Back to Order History</Tooltip>}>
-        {/* Inert in this prototype — back doesn't navigate anywhere yet. */}
         <Button
           type="button"
           variant="outline-light"
           aria-label="Back to Order History"
           className="d-inline-flex align-items-center justify-content-center"
           style={{ padding: 11 }}
+          onClick={() => navigate('/simplified-returns')}
         >
           <ArrowLeft className="text-secondary" />
         </Button>
