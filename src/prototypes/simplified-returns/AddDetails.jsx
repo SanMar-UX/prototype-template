@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Navigate } from 'react-router-dom'
 import { Container, Button, Form } from 'react-bootstrap'
 import SiteHeader from '../../components/SiteHeader.jsx'
 import SiteFooter from '../../components/SiteFooter.jsx'
@@ -27,6 +27,10 @@ export default function AddDetails() {
   const [showErrors, setShowErrors] = useState(false)
 
   const items = returnItems(entriesById)
+
+  // If the in-memory return was lost (refresh / direct deep link), there's
+  // nothing to detail — send the shopper back to step 1.
+  if (items.length === 0) return <Navigate to="/simplified-returns" replace />
 
   const setDescription = (productId, entryIndex, value) =>
     setEntriesFor(productId)(

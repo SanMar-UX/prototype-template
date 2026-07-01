@@ -1,3 +1,4 @@
+import { Navigate } from 'react-router-dom'
 import { Container, Button, Alert } from 'react-bootstrap'
 import SiteHeader from '../../components/SiteHeader.jsx'
 import SiteFooter from '../../components/SiteFooter.jsx'
@@ -46,6 +47,9 @@ const PACK_STEPS = [
 export default function ConfirmationScreen() {
   const { entriesById, shipMethod } = useReturns()
   const items = returnItems(entriesById)
+
+  // State lost (refresh / direct deep link) → restart at step 1.
+  if (items.length === 0) return <Navigate to="/simplified-returns" replace />
 
   const variant = shippingVariant(entriesById)
   const selected = shipMethod ?? variant.options[0]?.id
