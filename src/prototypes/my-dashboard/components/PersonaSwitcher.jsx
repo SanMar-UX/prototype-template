@@ -6,7 +6,6 @@ import { PERSONAS } from '../data/personas.js'
 // share of enrolled customers on that program so the audience understands the
 // magnitude.
 export default function PersonaSwitcher({ activeId, onChange }) {
-  const active = PERSONAS.find((p) => p.id === activeId)
   return (
     <div className="mdb-switcher">
       <div className="mdb-switcher__inner">
@@ -25,7 +24,6 @@ export default function PersonaSwitcher({ activeId, onChange }) {
             </button>
           ))}
         </div>
-        <span className="mdb-switcher__hint">{active.switcherHint}</span>
       </div>
     </div>
   )

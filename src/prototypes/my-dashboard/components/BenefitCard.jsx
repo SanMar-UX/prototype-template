@@ -16,6 +16,21 @@ export function Money({ value, className = '' }) {
   )
 }
 
+// Label/value rows for distinct facts (funded, source, expiry, invoice) —
+// replaces middot-separated run-on strings.
+function FactList({ facts, className = '' }) {
+  return (
+    <dl className={`mdb-facts ${className}`}>
+      {facts.map(([label, value]) => (
+        <div key={label} className="mdb-facts__row">
+          <dt>{label}</dt>
+          <dd>{value}</dd>
+        </div>
+      ))}
+    </dl>
+  )
+}
+
 // Storage-style allocation bar. Deliberately NOT the progress-bar grammar
 // (partial fill on an empty track = distance to a goal): this bar is always
 // full, split into two visible segments — striped/pale = consumed, solid =
@@ -82,9 +97,14 @@ function MarketingFundCard({ b }) {
         <div className="mt-3">
           <UsageBar spent={b.funded - b.remaining} remaining={b.remaining} spentLabel="spent" remainingLabel="left" />
         </div>
-        <div className="text-secondary small mt-2">
-          of <Money value={b.funded} /> · {b.fundedNote} · Expires {b.expires}
-        </div>
+        <FactList
+          className="mt-3"
+          facts={[
+            ['Funded', <><Money value={b.funded} /> · {b.fundedDate}</>],
+            ['Source', b.source],
+            ['Expires', b.expires],
+          ]}
+        />
         <div className="small mt-3">
           <Button variant="link" size="sm" className="p-0 border-0 align-baseline" onClick={() => setModal('history')}>
             View history
@@ -198,9 +218,14 @@ function RebateCreditCard({ b }) {
             remainingLabel="left"
           />
         </div>
-        <div className="text-secondary small mt-2">
-          of <Money value={b.funded} /> · {b.fundedNote} · Invoice #{b.invoiceNo}
-        </div>
+        <FactList
+          className="mt-3"
+          facts={[
+            ['Funded', <><Money value={b.funded} /> · {b.fundedDate}</>],
+            ['Source', b.source],
+            ['Invoice', `#${b.invoiceNo}`],
+          ]}
+        />
         <div className="small mt-3">
           <Button variant="link" size="sm" className="p-0 border-0 align-baseline" onClick={() => {}}>
             View history

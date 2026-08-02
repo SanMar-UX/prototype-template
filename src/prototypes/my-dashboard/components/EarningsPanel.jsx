@@ -66,7 +66,7 @@ export default function EarningsPanel({ earning }) {
         {/* The single most actionable nudge */}
         {earning.nextTier ? (
           <div className="mdb-nexttier mt-4">
-            <div className="d-flex flex-wrap justify-content-between align-items-baseline gap-2 mb-1">
+            <div className="d-flex flex-wrap justify-content-between align-items-baseline gap-2 mb-2">
               <span>
                 Spend <strong>{money0(earning.nextTier.gap)}</strong> more in eligible brands by December 31 to{' '}
                 {earning.currentPct > 0 ? (
@@ -78,22 +78,21 @@ export default function EarningsPanel({ earning }) {
                     unlock the first tier (<strong>{earning.nextTier.pct}%</strong>).
                   </>
                 )}
-                {/* tiers apply to the full year retroactively — say what the move is worth */}
-                {earning.nextTier.payoff != null && (
-                  <>
-                    {' '}
-                    Reaching {earning.nextTier.pct}% is worth approximately{' '}
-                    <strong>{money0(earning.nextTier.payoff)}</strong> on purchases already made this year.
-                  </>
-                )}
               </span>
               <span className="small text-secondary">
                 {money0(earning.eligible)} of {money0(earning.nextTier.threshold)}
               </span>
             </div>
+            {/* tiers apply to the full year retroactively — say what the move is worth */}
+            {earning.nextTier.payoff != null && (
+              <div className="small text-secondary mb-3">
+                Reaching {earning.nextTier.pct}% is worth approximately <strong>{money0(earning.nextTier.payoff)}</strong>{' '}
+                on purchases already made this year.
+              </div>
+            )}
             <ProgressBar now={(earning.eligible / earning.nextTier.threshold) * 100} className="mdb-progress" />
             {earning.paceFinish && (
-              <div className="small text-secondary mt-2">
+              <div className="small text-secondary mt-3">
                 At your current pace, {earning.year} finishes near <strong>{money0(earning.paceFinish)}</strong> —{' '}
                 {earning.paceNote}.
               </div>

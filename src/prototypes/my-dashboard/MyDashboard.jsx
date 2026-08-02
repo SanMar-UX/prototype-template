@@ -57,14 +57,17 @@ export default function MyDashboard() {
             <h1 className="h3 mb-1">My Dashboard</h1>
 
             {persona.program ? (
-              <p className="text-secondary mb-5">
-                Your Incentive Program: <strong>{persona.program.code}</strong> — {persona.program.name}{' '}
-                <span className="mdb-program-family">({persona.program.family})</span>
-                {' · '}
-                <Button variant="link" size="sm" className="p-0 border-0 align-baseline" onClick={() => {}}>
-                  Download 2026 program statement (PDF)
-                </Button>
-              </p>
+              <>
+                <p className="text-secondary mb-1">
+                  Your Incentive Program: <strong>{persona.program.code}</strong> — {persona.program.name}{' '}
+                  <span className="mdb-program-family">({persona.program.family})</span>
+                </p>
+                <p className="mb-5">
+                  <Button variant="link" size="sm" className="p-0 border-0 align-baseline" onClick={() => {}}>
+                    Download 2026 program statement (PDF)
+                  </Button>
+                </p>
+              </>
             ) : (
               <p className="text-secondary mb-5">You&apos;re not enrolled in an Incentive Program yet.</p>
             )}
