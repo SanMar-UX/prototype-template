@@ -12,6 +12,7 @@ import SelectReturnItems from './prototypes/simplified-returns/SelectReturnItems
 import AddDetails from './prototypes/simplified-returns/AddDetails.jsx'
 import ReviewAndSubmit from './prototypes/simplified-returns/ReviewAndSubmit.jsx'
 import ConfirmationScreen from './prototypes/simplified-returns/ConfirmationScreen.jsx'
+import MyDashboard from './prototypes/my-dashboard/MyDashboard.jsx'
 
 // =============================================================================
 // App — top-level routing.
@@ -38,6 +39,9 @@ export default function App() {
         <Route path="review" element={<ReviewAndSubmit />} />
         <Route path="confirmation" element={<ConfirmationScreen />} />
       </Route>
+
+      {/* My Dashboard prototype — Incentive Programs MVP (persona switcher built in) */}
+      <Route path="/my-dashboard" element={<MyDashboard />} />
     </Routes>
   )
 }

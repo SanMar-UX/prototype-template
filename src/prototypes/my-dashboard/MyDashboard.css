@@ -1,0 +1,296 @@
+/* My Dashboard — Incentive Programs (prototype-local styles).
+   Layout mirrors the other My SanMar pages; everything else leans on the
+   Bootstrap theme. */
+
+.mdb-crumb {
+  font-size: 20px;
+  color: var(--bs-secondary-color);
+}
+
+/* sidebar + main */
+.mdb-layout {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (max-width: 767px) {
+  .mdb-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.mdb-program-family {
+  font-size: 14px;
+}
+
+/* --- lo-fi mode -------------------------------------------------------------
+   Grayscale-filters the page body (not the shared header/footer chrome) so
+   stakeholder sessions collect structure/content feedback, not UI feedback.
+   Purely visual, fully reversible — real fidelity work comes later with the
+   UI designer. */
+.mdb-lofi > main {
+  filter: grayscale(1);
+}
+
+/* --- demo persona switcher (prototype chrome, not product UI) -------------- */
+.mdb-switcher {
+  background: #1a1a1a;
+  border-bottom: 1px dashed #6c757d;
+}
+
+.mdb-switcher__inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 8px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.mdb-switcher__label {
+  font-weight: 600;
+  color: #fff;
+}
+
+.mdb-switcher__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.mdb-switcher__btn {
+  border: 1px solid #6c757d;
+  background: transparent;
+  border-radius: 4px;
+  padding: 2px 10px;
+  font-size: 13px;
+  color: #e9ecef;
+}
+
+.mdb-switcher__btn--active {
+  background: #fff;
+  border-color: #fff;
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.mdb-switcher__hint {
+  color: #adb5bd;
+}
+
+.mdb-switcher__tag {
+  margin-left: 6px;
+  padding-left: 6px;
+  border-left: 1px solid currentColor;
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+/* --- money ----------------------------------------------------------------- */
+/* Cents are de-emphasized ONLY on display-size figures; in running text they
+   stay full-size so they remain legible. */
+.mdb-money--lg .mdb-money__cents,
+.mdb-money--md .mdb-money__cents {
+  font-size: 0.55em;
+}
+
+.mdb-money--lg {
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.mdb-money--md {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* --- benefit cards --------------------------------------------------------- */
+.mdb-benefit__title {
+  font-size: 1.25rem; /* $font-size-lg */
+  font-weight: 500; /* $headings-font-weight */
+}
+
+/* --- info tooltip trigger --------------------------------------------------- */
+.mdb-infotip {
+  border: 0;
+  background: none;
+  padding: 0 2px;
+  color: var(--bs-primary);
+  display: inline-flex;
+  align-items: center;
+}
+
+/* per-benefit breakdown beside the on-track total */
+.mdb-earnsummary {
+  font-size: 14px;
+  color: var(--bs-secondary-color);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-left: 1px solid var(--bs-border-color);
+  padding-left: 1.25rem;
+}
+
+/* storage-style allocation bar (always full: striped consumed + solid
+   remaining, hairline divider between segments) */
+.mdb-usage__bar {
+  height: 8px; /* same thickness as .mdb-progress */
+}
+
+.mdb-usage__spent {
+  opacity: 0.45;
+  border-right: 2px solid var(--bs-body-bg);
+}
+
+/* Collapse-based progressive disclosure (Disclosure.jsx) */
+.mdb-disclosure__toggle {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--bs-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mdb-disclosure__chevron {
+  transition: transform 0.15s ease;
+}
+
+.mdb-disclosure__chevron--open {
+  transform: rotate(90deg);
+}
+
+/* in-card disclosures are one size down */
+.mdb-carddetails .mdb-disclosure__toggle {
+  font-size: 0.875rem; /* $font-size-sm */
+}
+
+/* --- earnings panel --------------------------------------------------------- */
+/* "How is this calculated?" — vertical process stepper. Numbered markers on a
+   connector line; each step is label → figure → short note. The result step
+   gets a filled marker. */
+.mdb-stepper {
+  max-width: 720px;
+}
+
+.mdb-stepper__step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  column-gap: 1rem;
+  padding-bottom: 1.5rem;
+}
+
+.mdb-stepper__step:last-child {
+  padding-bottom: 0;
+}
+
+/* connector line between markers */
+.mdb-stepper__step::before {
+  content: '';
+  position: absolute;
+  left: 13.5px;
+  top: 32px;
+  bottom: 4px;
+  width: 1px;
+  background: var(--bs-border-color);
+}
+
+.mdb-stepper__step:last-child::before {
+  display: none;
+}
+
+.mdb-stepper__marker {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--bs-border-color);
+  background: var(--bs-body-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--bs-secondary-color);
+}
+
+.mdb-stepper__label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem; /* $font-size-xs */
+  color: var(--bs-secondary-color);
+  margin-bottom: 2px;
+}
+
+.mdb-stepper__value {
+  font-size: 1.25rem; /* $font-size-lg */
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.mdb-stepper__note {
+  font-size: 14px;
+  color: var(--bs-secondary-color);
+  margin-top: 2px;
+}
+
+/* the actual math, set off as chips so it reads as arithmetic */
+.mdb-calcmath {
+  display: inline-block;
+  background: var(--bs-tertiary-bg);
+  border-radius: 4px;
+  padding: 2px 10px;
+  margin: 2px 4px 2px 0;
+  white-space: nowrap;
+}
+
+.mdb-stepper__value .mdb-calcmath {
+  font-size: 15px;
+  font-weight: 400;
+}
+
+/* fund history modal — roomier rows than Bootstrap's 8px default, matching
+   the 14px row padding the other My SanMar tables use */
+.mdb-historytable th {
+  background: var(--bs-tertiary-bg);
+  font-size: 14px;
+}
+
+.mdb-historytable th,
+.mdb-historytable td {
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+/* Bootstrap modals portal to <body>, outside the grayscale-filtered <main>,
+   so they need their own lo-fi filter. */
+.mdb-lofi-modal {
+  filter: grayscale(1);
+}
+
+/* next-tier / growth nudges */
+.mdb-nexttier {
+  border-top: 1px solid var(--bs-border-color);
+  padding-top: 1.5rem;
+}
+
+.mdb-progress {
+  height: 8px;
+}
+
+/* tier ladder */
+.mdb-tiertable {
+  max-width: 480px;
+}
+
+.mdb-tiertable__current td {
+  background: var(--bs-primary-bg-subtle);
+  font-weight: 600;
+}

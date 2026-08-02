@@ -11,3 +11,6 @@ logs
 *.log
 npm-debug.log*
 .vite
+
+# Prototype context docs (confidential business documents — keep local only)
+src/prototypes/*/context/
