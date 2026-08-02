@@ -2,10 +2,10 @@ import './AccountSidebar.css'
 
 // Prototype-local vertical account nav (same pattern as the returns prototype's
 // sidebar — prototypes never import from each other, so this is a local copy
-// with "My Dashboard" added).
-const ITEMS = ['My Dashboard', 'Active Orders', 'Order History', 'Account Information', 'View & Pay Invoices', 'Address Book', 'Art Library']
+// with "Incentive Program" added under Account Information).
+const ITEMS = ['Active Orders', 'Order History', 'Account Information', 'Incentive Program', 'View & Pay Invoices', 'Address Book', 'Art Library']
 
-export default function AccountSidebar({ active = 'My Dashboard' }) {
+export default function AccountSidebar({ active = 'Incentive Program' }) {
   return (
     <nav className="account-sidebar" aria-label="Account">
       {ITEMS.map((item) => {

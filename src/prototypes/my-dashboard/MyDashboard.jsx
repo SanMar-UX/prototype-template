@@ -51,7 +51,7 @@ export default function MyDashboard() {
         <div className="mdb-crumb mb-3">My SanMar</div>
 
         <div className="mdb-layout">
-          <AccountSidebar active="My Dashboard" />
+          <AccountSidebar active="Incentive Program" />
 
           <div className="mdb-main">
             <h1 className="h3 mb-1">My Dashboard</h1>
