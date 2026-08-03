@@ -162,8 +162,6 @@ export default function ReturnDetails() {
                   <div><a href="#" onClick={demo} className="text-decoration-none">SO-151212453</a></div>
                   <div>Submitted</div>
                   <div>February 28, 2026 at 2:34PM</div>
-                  <div>Return deadline</div>
-                  <div>March 28, 2026 at 2:34PM</div>
                   <div>Ship to Warehouse:</div>
                   <div>Dallas, TX</div>
                   <div>Shipping method:</div>
