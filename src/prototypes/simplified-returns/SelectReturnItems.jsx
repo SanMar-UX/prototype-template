@@ -30,7 +30,7 @@ export default function SelectReturnItems() {
 
   return (
     <div className="d-flex flex-column min-vh-100">
-      <SiteHeader loggedIn breadcrumbs={false} />
+      <SiteHeader loggedIn breadcrumbs={false} logoHref="/simplified-returns" />
 
       <Container as="main" className="py-5 flex-grow-1">
         <ReturnPageHeader />

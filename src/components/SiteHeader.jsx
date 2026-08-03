@@ -1,4 +1,5 @@
 import { Container, Form, Button } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 // =============================================================================
 // SiteHeader — SanMar's composed e-commerce header.
@@ -38,13 +39,18 @@ const UtilLink = ({ children, caret }) => (
 // SVG (which has width="100%") doesn't get a wrong intrinsic width and stretch.
 const LOGO_RATIO = 294 / 60
 
-const Logo = ({ height = 36 }) => (
-  <div className="d-flex align-items-center gap-3">
-    <img src="/header/sanmar-logo-blue.svg" alt="SanMar" width={Math.round(height * LOGO_RATIO)} height={height} />
-    <span className="header-divider" />
-    <span className="header-tagline">Together, for Good.</span>
-  </div>
-)
+// `href` is opt-in: without it the logo stays a plain image (default everywhere);
+// a prototype can pass SiteHeader `logoHref` to make it navigate.
+const Logo = ({ height = 36, href }) => {
+  const img = <img src="/header/sanmar-logo-blue.svg" alt="SanMar" width={Math.round(height * LOGO_RATIO)} height={height} />
+  return (
+    <div className="d-flex align-items-center gap-3">
+      {href ? <Link to={href}>{img}</Link> : img}
+      <span className="header-divider" />
+      <span className="header-tagline">Together, for Good.</span>
+    </div>
+  )
+}
 
 const SearchBar = ({ placeholder }) => (
   <div className="header-search">
@@ -123,13 +129,13 @@ const Breadcrumb = () => (
   </Container>
 )
 
-export default function SiteHeader({ loggedIn = false, breadcrumbs = true }) {
+export default function SiteHeader({ loggedIn = false, breadcrumbs = true, logoHref }) {
   return (
     <header className="site-header border-bottom">
       {/* Desktop */}
       <div className="d-none d-lg-block">
         <Container className="d-flex align-items-center justify-content-between py-3">
-          <Logo />
+          <Logo href={logoHref} />
           {loggedIn ? <LoggedInTop /> : <LoggedOutTop />}
         </Container>
         <div className="header-navbar">
@@ -150,7 +156,13 @@ export default function SiteHeader({ loggedIn = false, breadcrumbs = true }) {
             <Hamburger />
             MENU
           </button>
-          <img src="/header/sanmar-logo-blue.svg" alt="SanMar" width={Math.round(24 * LOGO_RATIO)} height={24} />
+          {logoHref ? (
+            <Link to={logoHref}>
+              <img src="/header/sanmar-logo-blue.svg" alt="SanMar" width={Math.round(24 * LOGO_RATIO)} height={24} />
+            </Link>
+          ) : (
+            <img src="/header/sanmar-logo-blue.svg" alt="SanMar" width={Math.round(24 * LOGO_RATIO)} height={24} />
+          )}
           {loggedIn ? (
             <span className="header-cart">
               <span className="header-cart-badge">817</span>

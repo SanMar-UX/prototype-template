@@ -52,7 +52,7 @@ export default function OrderDetails() {
 
   return (
     <div className="d-flex flex-column min-vh-100">
-      <SiteHeader loggedIn breadcrumbs={false} />
+      <SiteHeader loggedIn breadcrumbs={false} logoHref="/simplified-returns" />
 
       <Container as="main" className="py-4 flex-grow-1">
         <div className="od-crumb mb-3">My SanMar</div>
