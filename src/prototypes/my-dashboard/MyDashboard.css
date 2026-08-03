@@ -71,6 +71,13 @@
   color: #e9ecef;
 }
 
+.mdb-switcher__btn:disabled {
+  border-style: dashed;
+  border-color: #495057;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
 .mdb-switcher__btn--active {
   background: #fff;
   border-color: #fff;
