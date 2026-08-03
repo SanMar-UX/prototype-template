@@ -153,7 +153,7 @@ export default function ReturnDetails() {
               <div className="rd-card__body">
                 <div className="rd-meta">
                   <div>Web Return Reference&nbsp;#</div>
-                  <div><a href="#" onClick={demo} className="text-decoration-none">{r.onlineRefNo}</a></div>
+                  <div>{r.onlineRefNo}</div>
                   <div>Status</div>
                   <div className="d-flex align-items-center gap-2">{status.icon}<span>{status.label}</span></div>
                   <div>Original Order</div>

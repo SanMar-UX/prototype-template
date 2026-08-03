@@ -92,7 +92,7 @@ export default function ConfirmationScreen() {
 
         <div className="conf-meta mb-4">
           <div className="fw-bold">Web Return Reference&nbsp;#:</div>
-          <div><a href="#" onClick={(e) => e.preventDefault()}>WRR-9112</a></div>
+          <div>WRR-9112</div>
           <div className="fw-bold">Original order:</div>
           <div><a href="#" onClick={(e) => e.preventDefault()}>{orderNo}</a></div>
           <div className="fw-bold">Submitted:</div>
