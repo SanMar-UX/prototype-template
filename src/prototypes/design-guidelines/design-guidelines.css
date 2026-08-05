@@ -1,0 +1,418 @@
+/* =============================================================================
+   SanMar Design Guidelines — docs-site chrome
+   =============================================================================
+   Prototype-only styling for the documentation shell (top bar, sidebar, content
+   rails, hero, editorial primitives). Everything is scoped under `.dg` so it can
+   never leak into the shared design system. Colors reference the synced theme
+   tokens (--bs-*) wherever possible; the brand navy (#003861) matches the footer.
+   ========================================================================== */
+
+.dg {
+  --dg-navy: #003861;
+  --dg-navy-700: #002a49;
+  --dg-sidebar-w: 268px;
+  --dg-toc-w: 220px;
+  --dg-topbar-h: 56px;
+  --dg-content-max: 820px;
+  --dg-ease: cubic-bezier(0.2, 0, 0.13, 1);
+  color: var(--bs-body-color);
+  background: var(--bs-white);
+}
+
+/* --- Top bar --------------------------------------------------------------- */
+.dg-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  height: var(--dg-topbar-h);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 1.25rem;
+  background: var(--dg-navy);
+  color: #fff;
+  border-bottom: 1px solid var(--dg-navy-700);
+}
+.dg-topbar .dg-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+}
+.dg-topbar .dg-brand img { display: block; }
+.dg-topbar .dg-brand-sep {
+  width: 1px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.28);
+}
+.dg-topbar .dg-brand-name {
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+}
+.dg-topbar-links {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+.dg-topbar-links a {
+  color: rgba(255, 255, 255, 0.82);
+  text-decoration: none;
+  font-size: 0.875rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: color 0.15s var(--dg-ease);
+}
+.dg-topbar-links a:hover { color: #fff; }
+.dg-menu-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #fff;
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* --- Shell (sidebar + main) ------------------------------------------------ */
+.dg-shell {
+  display: flex;
+  align-items: flex-start;
+}
+.dg-sidebar {
+  flex: 0 0 var(--dg-sidebar-w);
+  width: var(--dg-sidebar-w);
+  position: sticky;
+  top: var(--dg-topbar-h);
+  height: calc(100vh - var(--dg-topbar-h));
+  overflow-y: auto;
+  border-right: 1px solid var(--bs-border-color);
+  padding: 1.5rem 0.75rem 3rem;
+  background: var(--bs-white);
+}
+.dg-main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* --- Sidebar nav ----------------------------------------------------------- */
+.dg-nav-group + .dg-nav-group { margin-top: 1.5rem; }
+.dg-nav-title {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bs-gray-600);
+  padding: 0 0.75rem;
+  margin-bottom: 0.5rem;
+}
+.dg-nav-link {
+  display: block;
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
+  color: var(--bs-gray-800);
+  text-decoration: none;
+  font-size: 0.9rem;
+  line-height: 1.35;
+  border-left: 2px solid transparent;
+  transition: background 0.12s var(--dg-ease), color 0.12s var(--dg-ease);
+}
+.dg-nav-link:hover {
+  background: var(--bs-gray-100);
+  color: var(--bs-primary);
+}
+.dg-nav-link.active {
+  color: var(--bs-primary);
+  background: rgba(0, 119, 207, 0.08);
+  font-weight: 600;
+  border-left-color: var(--bs-primary);
+  border-radius: 0 6px 6px 0;
+}
+
+/* --- Content layout -------------------------------------------------------- */
+.dg-page {
+  display: flex;
+  gap: 2.5rem;
+  padding: 2.5rem 2.5rem 4rem;
+  max-width: calc(var(--dg-content-max) + var(--dg-toc-w) + 2.5rem);
+}
+.dg-content {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: var(--dg-content-max);
+}
+.dg-toc {
+  flex: 0 0 var(--dg-toc-w);
+  width: var(--dg-toc-w);
+  position: sticky;
+  top: calc(var(--dg-topbar-h) + 2.5rem);
+  align-self: flex-start;
+  max-height: calc(100vh - var(--dg-topbar-h) - 4rem);
+  overflow-y: auto;
+}
+.dg-toc-title {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bs-gray-600);
+  margin-bottom: 0.75rem;
+}
+.dg-toc a {
+  display: block;
+  padding: 0.2rem 0 0.2rem 0.75rem;
+  border-left: 2px solid var(--bs-border-color);
+  color: var(--bs-gray-600);
+  text-decoration: none;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+.dg-toc a:hover { color: var(--bs-primary); }
+.dg-toc a.active {
+  color: var(--bs-primary);
+  border-left-color: var(--bs-primary);
+  font-weight: 600;
+}
+
+/* --- Editorial primitives -------------------------------------------------- */
+.dg-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bs-primary);
+  margin-bottom: 0.5rem;
+}
+.dg-page-title {
+  font-size: 2.5rem;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.75rem;
+}
+.dg-lead {
+  font-size: 1.2rem;
+  line-height: 1.55;
+  color: var(--bs-gray-700);
+  max-width: 46ch;
+}
+.dg-content h2 {
+  font-size: 1.6rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin: 3rem 0 1rem;
+  scroll-margin-top: calc(var(--dg-topbar-h) + 1.5rem);
+}
+.dg-content h2:first-of-type { margin-top: 2.5rem; }
+.dg-content h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 2rem 0 0.75rem;
+}
+.dg-content p { line-height: 1.65; }
+.dg-content > p,
+.dg-prose p { max-width: 68ch; }
+
+/* Section divider */
+.dg-rule {
+  border: 0;
+  border-top: 1px solid var(--bs-border-color);
+  margin: 3rem 0;
+}
+
+/* --- Do / Don't ------------------------------------------------------------ */
+.dg-dodont {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+@media (max-width: 700px) {
+  .dg-dodont { grid-template-columns: 1fr; }
+}
+.dg-dd-card {
+  border: 1px solid var(--bs-border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--bs-white);
+}
+.dg-dd-preview {
+  padding: 1.5rem;
+  background: var(--bs-gray-100);
+  min-height: 108px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.dg-dd-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-top: 3px solid;
+}
+.dg-dd-do .dg-dd-bar { border-top-color: var(--bs-success); color: var(--bs-success); }
+.dg-dd-dont .dg-dd-bar { border-top-color: var(--bs-danger); color: var(--bs-danger); }
+.dg-dd-body { padding: 0 1rem 1rem; color: var(--bs-gray-700); font-size: 0.9rem; line-height: 1.55; }
+
+/* --- Callout --------------------------------------------------------------- */
+.dg-callout {
+  display: flex;
+  gap: 0.85rem;
+  padding: 1rem 1.15rem;
+  border-radius: 8px;
+  border: 1px solid;
+  margin: 1.5rem 0;
+  font-size: 0.925rem;
+  line-height: 1.55;
+}
+.dg-callout svg { flex: 0 0 auto; margin-top: 2px; }
+.dg-callout-title { font-weight: 600; display: block; margin-bottom: 0.15rem; }
+.dg-callout-info   { background: var(--bs-primary-bg-subtle);  border-color: var(--bs-primary-border-subtle);  color: var(--bs-primary-text-emphasis); }
+.dg-callout-success{ background: var(--bs-success-bg-subtle);  border-color: var(--bs-success-border-subtle);  color: var(--bs-success-text-emphasis); }
+.dg-callout-warning{ background: var(--bs-warning-bg-subtle);  border-color: var(--bs-warning-border-subtle);  color: var(--bs-warning-text-emphasis); }
+
+/* --- Component preview boxes ---------------------------------------------- */
+.dg-preview {
+  border: 1px solid var(--bs-border-color);
+  border-radius: 8px 8px 0 0;
+  padding: 2rem;
+  background:
+    linear-gradient(var(--bs-white), var(--bs-white)) padding-box,
+    repeating-conic-gradient(var(--bs-gray-100) 0% 25%, var(--bs-white) 0% 50%) 0 / 20px 20px;
+  background-color: var(--bs-gray-100);
+}
+.dg-preview + .dg-preview-meta {
+  border: 1px solid var(--bs-border-color);
+  border-top: 0;
+  border-radius: 0 0 8px 8px;
+  padding: 0.6rem 1rem;
+  background: var(--bs-gray-100);
+  font-size: 0.8rem;
+  color: var(--bs-gray-600);
+}
+.dg-preview-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+/* --- Token / spec tables --------------------------------------------------- */
+.dg-table code { font-size: 0.82em; }
+.dg-swatch-chip {
+  width: 28px;
+  height: 28px;
+  border-radius: 5px;
+  border: 1px solid var(--bs-border-color);
+  flex: 0 0 auto;
+}
+
+/* --- Hero (Home) ----------------------------------------------------------- */
+.dg-hero {
+  background:
+    radial-gradient(1200px 500px at 85% -10%, rgba(32, 201, 151, 0.18), transparent 60%),
+    linear-gradient(160deg, var(--dg-navy) 0%, var(--dg-navy-700) 55%, #001d33 100%);
+  color: #fff;
+  padding: 5rem 2.5rem 5.5rem;
+  border-radius: 0;
+  position: relative;
+  overflow: hidden;
+}
+.dg-hero-inner { max-width: 720px; position: relative; z-index: 1; }
+.dg-hero h1 {
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  margin-bottom: 1.25rem;
+}
+.dg-hero p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.82);
+  max-width: 52ch;
+  margin-bottom: 2rem;
+}
+.dg-hero .dg-eyebrow { color: var(--bs-teal); }
+
+/* Home cards */
+.dg-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+.dg-tile {
+  display: block;
+  padding: 1.5rem;
+  border: 1px solid var(--bs-border-color);
+  border-radius: 10px;
+  text-decoration: none;
+  color: inherit;
+  background: var(--bs-white);
+  transition: box-shadow 0.15s var(--dg-ease), transform 0.15s var(--dg-ease), border-color 0.15s var(--dg-ease);
+  height: 100%;
+}
+.dg-tile:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+  border-color: var(--bs-primary);
+  color: inherit;
+}
+.dg-tile-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 119, 207, 0.1);
+  color: var(--bs-primary);
+  margin-bottom: 1rem;
+}
+.dg-tile h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.35rem; }
+.dg-tile p { color: var(--bs-gray-600); font-size: 0.9rem; line-height: 1.5; margin: 0; }
+
+/* Pager (prev / next at page foot) */
+.dg-pager {
+  display: flex;
+  gap: 1rem;
+  margin-top: 3.5rem;
+}
+.dg-pager a {
+  flex: 1 1 0;
+  border: 1px solid var(--bs-border-color);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s var(--dg-ease), background 0.15s var(--dg-ease);
+}
+.dg-pager a:hover { border-color: var(--bs-primary); background: var(--bs-gray-100); }
+.dg-pager .dg-pager-dir { font-size: 0.75rem; color: var(--bs-gray-600); text-transform: uppercase; letter-spacing: 0.06em; }
+.dg-pager .dg-pager-label { color: var(--bs-primary); font-weight: 600; }
+.dg-pager .dg-pager-next { text-align: right; }
+
+/* --- Responsive ------------------------------------------------------------ */
+@media (max-width: 991.98px) {
+  .dg-sidebar { display: none; }
+  .dg-page { padding: 1.5rem 1.25rem 3rem; }
+  .dg-toc { display: none; }
+  .dg-hero { padding: 3.5rem 1.5rem; }
+}
+@media (min-width: 992px) {
+  .dg-menu-btn { display: none; }
+}
+/* Hide the right rail until there's room for it beside the content */
+@media (max-width: 1199.98px) {
+  .dg-toc { display: none; }
+}
+
+/* Offcanvas sidebar reuses the same nav styles */
+.dg-offcanvas .dg-nav-group + .dg-nav-group { margin-top: 1.25rem; }
