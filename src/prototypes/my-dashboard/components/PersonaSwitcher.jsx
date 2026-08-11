@@ -6,7 +6,7 @@ import { PERSONAS } from '../data/personas.js'
 // share of enrolled customers on that program so the audience understands the
 // magnitude.
 // Scenarios ready to demo; the rest stay visible but disabled as WIP.
-const READY_IDS = ['standard', 'standard-rc']
+const READY_IDS = PERSONAS.map((p) => p.id)
 
 export default function PersonaSwitcher({ activeId, onChange }) {
   return (
