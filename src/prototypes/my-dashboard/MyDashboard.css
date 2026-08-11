@@ -2,8 +2,10 @@
    Layout mirrors the other My SanMar pages; everything else leans on the
    Bootstrap theme. */
 
+/* breadcrumb-scale, not heading-scale — must sit below the page title in the
+   hierarchy */
 .mdb-crumb {
-  font-size: 20px;
+  font-size: 14px;
   color: var(--bs-secondary-color);
 }
 
@@ -34,59 +36,85 @@
   filter: grayscale(1);
 }
 
-/* --- demo persona switcher (prototype chrome, not product UI) -------------- */
+/* --- demo persona switcher (prototype chrome, not product UI) --------------
+   A floating pill fixed to the bottom-right, detached from the page layout so
+   it can't be mistaken for product UI (same idiom as Vercel's preview
+   toolbar). Dashed outline keeps the "wireframe scaffolding" cue. */
 .mdb-switcher {
-  background: #1a1a1a;
-  border-bottom: 1px dashed #6c757d;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1040; /* above page content, below Bootstrap modals (1055) */
 }
 
 .mdb-switcher__inner {
-  max-width: 1320px;
-  margin: 0 auto;
-  padding: 8px 16px;
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 12px;
-  font-size: 14px;
+  gap: 10px;
+  padding: 6px 6px 6px 14px;
+  background: rgba(26, 26, 26, 0.92);
+  backdrop-filter: blur(4px);
+  border: 1px dashed rgba(255, 255, 255, 0.4);
+  border-radius: 999px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  font-size: 13px;
 }
 
 .mdb-switcher__label {
   font-weight: 600;
-  color: #fff;
+  color: #adb5bd;
+  white-space: nowrap;
 }
 
-.mdb-switcher__buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-}
-
-.mdb-switcher__btn {
+/* the chip-styled dropdown toggle — overrides Bootstrap's btn-dark so it
+   reads as demo chrome, not a product button */
+.mdb-switcher__toggle.btn {
   border: 1px solid #6c757d;
   background: transparent;
-  border-radius: 4px;
-  padding: 2px 10px;
+  border-radius: 999px;
+  padding: 2px 12px;
   font-size: 13px;
+  font-weight: 600;
   color: #e9ecef;
 }
 
-.mdb-switcher__btn:disabled {
-  border-style: dashed;
-  border-color: #495057;
-  color: #6c757d;
-  cursor: not-allowed;
-}
-
-.mdb-switcher__btn--active {
+.mdb-switcher__toggle.btn:hover,
+.mdb-switcher__toggle.btn:focus-visible,
+.mdb-switcher__toggle.btn[aria-expanded='true'] {
   background: #fff;
   border-color: #fff;
   color: #1a1a1a;
-  font-weight: 600;
+}
+
+.mdb-switcher__menu {
+  font-size: 13px;
+  margin-bottom: 10px; /* breathing room between the drop-up menu and the pill */
+}
+
+.mdb-switcher__menu .dropdown-item {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+/* neutral active state (white chip, like the strip) — Bootstrap's blue would
+   be the only saturated color in the grayscale lo-fi demo */
+.mdb-switcher__menu .dropdown-item.active {
+  background: #fff;
+  color: #1a1a1a;
+}
+
+.mdb-switcher__menu .dropdown-item.active .mdb-switcher__hint {
+  color: #495057;
 }
 
 .mdb-switcher__hint {
+  font-size: 11px;
   color: #adb5bd;
+}
+
+.mdb-switcher__itemtag {
+  font-size: 11px;
+  opacity: 0.7;
 }
 
 .mdb-switcher__tag {
@@ -306,10 +334,17 @@
   filter: grayscale(1);
 }
 
-/* next-tier / growth nudges */
+/* next-tier / growth nudges — label/value grammar: small label, scannable
+   headline, one detail line, bar with labeled endpoints */
 .mdb-nexttier {
   border-top: 1px solid var(--bs-border-color);
   padding-top: 1.5rem;
+}
+
+.mdb-nexttier__headline {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2;
 }
 
 .mdb-progress {

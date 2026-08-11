@@ -1,10 +1,9 @@
 import { Card, ProgressBar, Table, Row, Col, Badge } from 'react-bootstrap'
 import InfoTip from './InfoTip.jsx'
 import Disclosure from './Disclosure.jsx'
-import { Money } from './BenefitCard.jsx'
 import { GLOSSARY } from '../data/personas.js'
 
-const money0 = (n) => '$' + n.toLocaleString('en-US')
+const money0 = (n) => '$' + Math.round(n).toLocaleString('en-US')
 
 // =============================================================================
 // EarningsPanel — "What you're earning" for the current year, in two layers.
@@ -27,17 +26,18 @@ export default function EarningsPanel({ earning }) {
   const multiBenefit = earning.rows.length + achievedBonuses.length > 1
 
   return (
-    <Card className="mdb-panel">
+    <>
+      <h2 className="h5 mb-3">What you&apos;re earning in {earning.year}</h2>
+      <Card className="mdb-panel">
       <Card.Body className="p-4">
-        <h2 className="h5 mb-4">What you&apos;re earning in {earning.year}</h2>
-
-        {/* Layer 1 — this customer's number */}
+        {/* Layer 1 — this customer's number. Projections are estimates, so no
+            cents — false precision reads as noise. */}
         <div className="d-flex flex-wrap align-items-center gap-4">
           <div>
             <div className="text-secondary small mb-1">On track to earn by February {nextFebruary}</div>
             {total > 0 ? (
               <div className="d-flex align-items-baseline gap-2 flex-wrap">
-                <Money value={total} className="mdb-money--lg" />
+                <span className="mdb-money mdb-money--lg">{money0(total)}</span>
                 {!multiBenefit && <span className="text-secondary">{earning.rows[0].label}</span>}
               </div>
             ) : (
@@ -63,34 +63,30 @@ export default function EarningsPanel({ earning }) {
           )}
         </div>
 
-        {/* The single most actionable nudge */}
+        {/* The single most actionable nudge — label/value grammar, not prose:
+            a small label, a scannable headline, ONE detail line, then the bar
+            with its endpoints labeled underneath (no floating "$X of $Y"). */}
         {earning.nextTier ? (
           <div className="mdb-nexttier mt-4">
-            <div className="d-flex flex-wrap justify-content-between align-items-baseline gap-2 mb-2">
-              <span>
-                Spend <strong>{money0(earning.nextTier.gap)}</strong> more in eligible brands by December 31 to{' '}
-                {earning.currentPct > 0 ? (
-                  <>
-                    move from <strong>{earning.currentPct}%</strong> to <strong>{earning.nextTier.pct}%</strong>.
-                  </>
-                ) : (
-                  <>
-                    unlock the first tier (<strong>{earning.nextTier.pct}%</strong>).
-                  </>
-                )}
-              </span>
-              <span className="small text-secondary">
-                {money0(earning.eligible)} of {money0(earning.nextTier.threshold)}
-              </span>
+            <div className="text-secondary small mb-1">{earning.currentPct > 0 ? 'Next tier' : 'First tier'}</div>
+            <div className="mdb-nexttier__headline mb-2">
+              {earning.currentPct > 0 && <span className="text-secondary">{earning.currentPct}% → </span>}
+              {earning.nextTier.pct}%
             </div>
-            {/* tiers apply to the full year retroactively — say what the move is worth */}
-            {earning.nextTier.payoff != null && (
-              <div className="small text-secondary mb-3">
-                Reaching {earning.nextTier.pct}% is worth approximately <strong>{money0(earning.nextTier.payoff)}</strong>{' '}
-                on purchases already made this year.
-              </div>
-            )}
+            <div className="mb-3">
+              Spend <strong>{money0(earning.nextTier.gap)}</strong> more in eligible brands by December 31
+              {/* tiers apply to the full year retroactively — say what the move is worth */}
+              {earning.nextTier.payoff != null && (
+                <span className="text-secondary">
+                  {' '}· worth ~{money0(earning.nextTier.payoff)} on purchases already made this year
+                </span>
+              )}
+            </div>
             <ProgressBar now={(earning.eligible / earning.nextTier.threshold) * 100} className="mdb-progress" />
+            <div className="d-flex justify-content-between small text-secondary mt-1">
+              <span>{money0(earning.eligible)} so far</span>
+              <span>{money0(earning.nextTier.threshold)}</span>
+            </div>
             {earning.paceFinish && (
               <div className="small text-secondary mt-3">
                 At your current pace, {earning.year} finishes near <strong>{money0(earning.paceFinish)}</strong> —{' '}
@@ -101,8 +97,9 @@ export default function EarningsPanel({ earning }) {
         ) : earning.growth ? (
           <GrowthNudge growth={earning.growth} />
         ) : (
-          <div className="mdb-nexttier mt-4 small text-secondary">
-            {money0(earning.eligible)} in eligible-brand purchases so far this year
+          <div className="mdb-nexttier mt-4">
+            <div className="text-secondary small mb-1">Eligible brand purchases so far this year</div>
+            <div className="mdb-nexttier__headline">{money0(earning.eligible)}</div>
           </div>
         )}
 
@@ -125,7 +122,8 @@ export default function EarningsPanel({ earning }) {
           </div>
         </Disclosure>
       </Card.Body>
-    </Card>
+      </Card>
+    </>
   )
 }
 
@@ -285,14 +283,20 @@ function GrowthNudge({ growth }) {
   if (!next) return null
   return (
     <div className="mdb-nexttier mt-4">
-      <div className="d-flex flex-wrap justify-content-between align-items-baseline gap-2 mb-1">
-        <span>
-          You&apos;ve grown <strong>{growth.currentGrowthPct}%</strong> over last year — reach{' '}
-          <strong>{next.growthPct}%</strong> growth to upgrade your bonus to +{next.bonusPct}% {growth.bonusOn}.
-        </span>
-        <span className="small text-secondary">{money0(next.gap)} to go</span>
+      <div className="text-secondary small mb-1">Next growth milestone</div>
+      <div className="mdb-nexttier__headline mb-2">
+        +{next.bonusPct}% {growth.bonusOn}
+      </div>
+      <div className="mb-3">
+        You&apos;ve grown <strong>{growth.currentGrowthPct}%</strong> over last year — spend{' '}
+        <strong>{money0(next.gap)}</strong> more to reach <strong>{next.growthPct}%</strong> growth and upgrade your
+        bonus.
       </div>
       <ProgressBar now={(growth.currentGrowthPct / next.growthPct) * 100} variant="success" className="mdb-progress" />
+      <div className="d-flex justify-content-between small text-secondary mt-1">
+        <span>{growth.currentGrowthPct}% growth so far</span>
+        <span>{next.growthPct}% growth</span>
+      </div>
     </div>
   )
 }
