@@ -18,7 +18,7 @@ export const DROP_OFF_OPTION = {
 export const SANMAR_PAID_OPTION = {
   id: 'sanmar-labels',
   label: 'Use SanMar shipping labels',
-  detail: 'Shipping cost: $5 per box',
+  detail: 'Shipping cost: $X per box',
 }
 export const SANMAR_PREPAID_OPTION = { id: 'sanmar-prepaid', label: 'Use SanMar prepaid labels' }
 export const SANMAR_FREE_OPTION = { id: 'sanmar-free', label: 'Use SanMar prepaid labels (FREE)' }
