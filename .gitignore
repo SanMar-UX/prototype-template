@@ -14,3 +14,4 @@ npm-debug.log*
 
 # Prototype context docs (confidential business documents — keep local only)
 src/prototypes/*/context/
+.env*
