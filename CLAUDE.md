@@ -133,6 +133,9 @@ nav discovers it automatically.
 ## Deploy
 Deploying is just **`git push` to `main`** — Vercel auto-builds and updates the
 live gallery (see "The gallery model"). No `vercel` CLI or dashboard needed.
+The Vercel project is `sanmar-prototypes` under the **UX Team (Pro)** workspace
+(`ux-team-sanmar`) — look there in the Vercel dashboard, not under a personal
+account.
 Feature branches still get their own Vercel preview URL for testing a variant
 before merging.
 

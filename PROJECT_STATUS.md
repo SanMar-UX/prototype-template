@@ -4,7 +4,7 @@
 > A handoff/continuity doc so any session — human or Claude — can pick up where we
 > left off. If you generated a prototype from this template, you can delete this file.
 
-_Last updated: 2026-06-23_
+_Last updated: 2026-08-25_
 
 ---
 
@@ -45,9 +45,21 @@ component catalog, and the conventions, so they're productive in minutes.
 - `SanMar-UX` GitHub org created.
 - Repo **`SanMar-UX/prototype-template`** — code on `main`, marked as a
   **Template repository**. Made **public** (2026-06-23) so the free Vercel Hobby
-  plan can deploy it (private-org repos require paid Vercel Pro).
+  plan could deploy it (private-org repos required paid Vercel Pro at the time;
+  moot since the 2026-08-17 move to Pro — see below).
 - **Vercel connected** — push to `main` auto-deploys; verified end-to-end
   (commit → Production in ~9s). Claude runs the git; no Vercel CLI needed.
+
+**Moved to Vercel Pro (2026-08-17)**
+- Manager (Devin) created the **UX Team** Pro workspace (`ux-team-sanmar`) on
+  Vercel; the `sanmar-prototypes` project was **transferred** into it from the
+  personal Hobby team.
+- **Nothing about the workflow changed**: push to `main` still auto-deploys
+  (webhook survived the transfer; re-verified end-to-end after the move).
+- **All URLs survived**, including previously shared links —
+  `prototype-template-gamma.vercel.app` (primary) and both team-scoped URLs
+  still resolve, deep links included. Deployment Protection remains OFF.
+- The old personal `SanMar-UX` Hobby Vercel team is now empty (delete at leisure).
 
 **Deploy model decided: the _gallery_ (2026-06-23)**
 - **One repo / one Vercel project**, each prototype is a route
@@ -77,12 +89,16 @@ component catalog, and the conventions, so they're productive in minutes.
 
 **Publishing follow-ups**
 - [x] **Vercel** — connected; auto-deploy on push verified.
-- [ ] **Disable Deployment Protection** (Vercel → Project → Settings → Deployment
-      Protection → Vercel Authentication → Disabled). Until then, shared links hit a
-      Vercel login wall instead of the prototype. **Blocks external sharing.**
-- [ ] **Rename repo + Vercel project to `sanmar-prototypes`** so the gallery domain
-      reads `sanmar-prototypes.vercel.app/<slug>` instead of `prototype-template-…`.
-- [ ] **Build the gallery index `/` + first real route** (`/simplified-returns`).
+- [x] **Disable Deployment Protection** — done 2026-06-23; still off after the
+      Pro-team transfer (re-verified 2026-08-17). External links open directly.
+- [x] **Rename Vercel project to `sanmar-prototypes`** — done. (GitHub repo is
+      still named `prototype-template`; primary domain is
+      `prototype-template-gamma.vercel.app`.)
+- [x] **First real route** — `/simplified-returns` shipped and shared.
+- [ ] **Build the gallery index at `/`** — still the blank StarterPage; should
+      become an index of cards linking to each prototype.
+- [ ] **Consider making the repo private again** — the public-repo workaround is
+      obsolete now that we're on Vercel Pro. Ask Devin for preference.
 - [ ] **Add a 2nd org owner** when a colleague is onboarded (bus-factor insurance — currently sole owner).
 - [ ] **Invite colleagues** once they have GitHub accounts (they have `@sanmar.com` emails but no GitHub yet).
 

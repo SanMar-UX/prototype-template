@@ -88,16 +88,13 @@ react-bootstrap + existing tokens.
 
 ## Deploying a live URL
 
-This builds to static files — host it anywhere. We use **Vercel** (free tier):
+Deployment is already wired up — **do not run the Vercel CLI or import the repo
+at vercel.com/new** (that would create a second, disconnected project). This repo
+is connected to the `sanmar-prototypes` Vercel project in the **UX Team (Pro)**
+workspace, and **every push to `main` deploys to production automatically**.
 
-```bash
-npm i -g vercel   # once
-vercel            # deploy; follow the prompts -> get a URL
-```
-
-Or import the GitHub repo at [vercel.com/new](https://vercel.com/new) once, and
-every push deploys automatically. **Every branch gets its own preview URL** —
-make a branch per variant to test alternatives with customers.
+**Every branch gets its own preview URL** — make a branch per variant to test
+alternatives with customers before merging.
 
 ---
 
