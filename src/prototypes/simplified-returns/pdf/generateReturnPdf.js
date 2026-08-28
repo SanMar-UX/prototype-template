@@ -9,12 +9,15 @@ import label3 from './labels/label-3.png'
 // One label + one packing slip per box. Labels are SanMar's real label PNGs
 // (cycled per box); the "x OF 3" text is baked into the images.
 
-const PACK_STEPS = [
+// Single source of truth for the pack instructions — identical for both PDF
+// variants (PM requirement) and reused by the on-screen Confirmation list.
+// For own-carrier/drop-off, the Ship To page acts as the "shipping label".
+export const PACK_STEPS = [
   'Pack items securely in original packaging if possible',
   'Remove or cover any old shipping labels',
   'Seal boxes with strong tape',
-  'Attach one shipping label on each box (outside)',
-  'Place full Packing List into each box (inside)',
+  'Attach one shipping label on the outside of each box',
+  'Place a Packing List inside each box',
 ]
 
 const LABELS = [label1, label2, label3]
@@ -102,11 +105,6 @@ function packingSlipPage(doc, { box, boxes, items, refNo, orderNo, M }) {
   let y = M + 10
   doc.setFont('helvetica', 'bold').setFontSize(16)
   doc.text(`Packing Slip ${box}/${boxes}`, M, y)
-
-  y += 22
-  doc.setFont('helvetica', 'normal').setFontSize(10).setTextColor(90)
-  doc.text('Each packing slip contains identical information and must be placed inside each box.', M, y)
-  doc.setTextColor(0)
 
   // info box
   y += 34
