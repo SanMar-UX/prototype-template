@@ -316,10 +316,12 @@ export const PERSONAS = [
 
   // ---------------------------------------------------------------------------
   // 7. New customer — not enrolled in any program. Sees what programs are and
-  //    how to get in.
+  //    how to get in. Hidden from the demo switcher for now (out of scope for
+  //    the current review); flip `hidden` off to bring it back.
   // ---------------------------------------------------------------------------
   {
     id: 'new',
+    hidden: true,
     switcherLabel: 'New customer',
     switcherTag: 'edge case',
     switcherHint: 'Not enrolled — what do they see?',

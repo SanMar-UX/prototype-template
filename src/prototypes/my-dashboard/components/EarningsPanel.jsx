@@ -152,6 +152,7 @@ function CalcSteps({ earning, nextFebruary }) {
             <YoY value={earning.eligibleYoY} />
           </>
         )}
+        {'. '}Counts invoiced orders only. Pending orders and backorders are added once they invoice.
       </>
     ),
   })

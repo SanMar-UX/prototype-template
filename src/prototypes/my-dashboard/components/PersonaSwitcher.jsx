@@ -8,7 +8,9 @@ import { PERSONAS } from '../data/personas.js'
 // carries the share of enrolled customers on that program so the audience
 // understands the magnitude.
 // Scenarios ready to demo; the rest stay visible but disabled as WIP.
-const READY_IDS = PERSONAS.map((p) => p.id)
+// Personas flagged `hidden` in the data are left out of the menu entirely.
+const VISIBLE = PERSONAS.filter((p) => !p.hidden)
+const READY_IDS = VISIBLE.map((p) => p.id)
 
 export default function PersonaSwitcher({ activeId, onChange }) {
   const active = PERSONAS.find((p) => p.id === activeId)
@@ -22,7 +24,7 @@ export default function PersonaSwitcher({ activeId, onChange }) {
             <span className="mdb-switcher__tag">{active.switcherTag}</span>
           </Dropdown.Toggle>
           <Dropdown.Menu variant="dark" className="mdb-switcher__menu">
-            {PERSONAS.map((p) => {
+            {VISIBLE.map((p) => {
               const ready = READY_IDS.includes(p.id)
               return (
                 <Dropdown.Item

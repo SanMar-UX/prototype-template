@@ -105,6 +105,12 @@ function MarketingFundCard({ b }) {
             ['Expires', b.expires],
           ]}
         />
+        {/* Balance-staleness caveat from the knowledge articles: deductions
+            happen at invoicing, so pending orders can overstate the balance */}
+        <div className="text-secondary small mt-3">
+          Orders are deducted from your balance when they invoice. Recent orders, such as backorders or orders
+          shipping from multiple warehouses, may not be reflected yet.
+        </div>
         <div className="small mt-3">
           <Button variant="link" size="sm" className="p-0 border-0 align-baseline" onClick={() => setModal('history')}>
             View history
