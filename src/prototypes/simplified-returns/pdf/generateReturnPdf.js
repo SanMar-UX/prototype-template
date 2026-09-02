@@ -11,13 +11,14 @@ import label3 from './labels/label-3.png'
 
 // Single source of truth for the pack instructions — identical for both PDF
 // variants (PM requirement) and reused by the on-screen Confirmation list.
-// For own-carrier/drop-off, the Ship To page acts as the "shipping label".
+// Official copy vetted by SMEs (Sep 2026). For own-carrier/drop-off, "the
+// label from this document" is the Ship To page.
 export const PACK_STEPS = [
-  'Pack items securely in original packaging if possible',
-  'Remove or cover any old shipping labels',
-  'Seal boxes with strong tape',
-  'Attach one shipping label on the outside of each box',
+  'Pack items securely in their original packaging if possible',
   'Place a Packing List inside each box',
+  'Remove or cover any old shipping labels',
+  'Seal each box with strong tape',
+  'Attach the label from this document to the outside of each box. Your Web Return Number on the label is required to process your return.',
 ]
 
 const LABELS = [label1, label2, label3]
@@ -59,6 +60,7 @@ export async function generateReturnPdf({ items, boxes, includeLabels, refNo = '
 }
 
 function instructionsPage(doc, M) {
+  const W = doc.internal.pageSize.getWidth()
   let y = M + 20
   doc.setFont('helvetica', 'bold').setFontSize(18)
   doc.text('How to pack your return:', M, y)
@@ -66,8 +68,9 @@ function instructionsPage(doc, M) {
   y += 32
   PACK_STEPS.forEach((s, i) => {
     doc.text(`${i + 1}.`, M, y)
-    doc.text(s, M + 18, y)
-    y += 24
+    const lines = doc.splitTextToSize(s, W - (M + 18) - M)
+    doc.text(lines, M + 18, y)
+    y += 18 * (lines.length - 1) + 24
   })
 }
 
