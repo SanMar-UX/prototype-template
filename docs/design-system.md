@@ -7,12 +7,13 @@ single tokens file.
 ## The three style files
 
 1. **`src/styles/_tokens.scss`** — raw SanMar brand values (`$sm-blue`,
-   `$sm-font-sans`, `$sm-radius`, …). This is the *only* file that should hold
+   `$sm-font-sans`, `$sm-spacer-6`, …). This is the *only* file that should hold
    literal hex codes / sizes. It's kept in sync with Figma via `/sync-tokens`.
 
 2. **`src/styles/_theme.scss`** — maps those tokens onto **Bootstrap's** Sass
-   variables (`$primary: $sm-blue;`, `$border-radius: $sm-radius;`, …) and
-   defines extra brand utility colors. This is the translation layer.
+   variables (`$primary: $sm-blue;`, `$font-family-sans-serif: $sm-font-sans;`,
+   …) plus the per-component overrides (button/badge/input radii, card padding,
+   pagination active state). This is the translation layer.
 
 3. **`src/styles/main.scss`** — imports everything in the **correct order** and
    compiles Bootstrap. This order is load-bearing:
@@ -34,9 +35,9 @@ single tokens file.
   render Bootstrap markup and pick up the theme automatically.
 - **Use semantic color names**, never raw hex, in screens:
   - `variant="primary"`, `bg="dark"`, `text-secondary`
-  - brand extras: `bg="brand-teal"`, `className="text-brand-navy"`
-- Need a new brand color in components? Add it to `_tokens.scss`, expose it in
-  `_theme.scss` (`$custom-colors`), and it becomes a Bootstrap utility.
+- Need a new brand color in components? Add the raw value to `_tokens.scss` and
+  map it onto the right Bootstrap variable in `_theme.scss` (or merge it into
+  the `$theme-colors` map to mint a new `bg-*`/`text-*` utility).
 
 ## Why customize Bootstrap instead of using it raw?
 

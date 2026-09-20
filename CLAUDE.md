@@ -17,12 +17,15 @@ See **"The gallery model"** below for how prototypes are added and deployed.
 ## Conventions (please follow)
 - **Use the design system, don't reinvent it.** Reach for react-bootstrap
   components and Bootstrap utility classes. Use theme colors (`primary`,
-  `dark`, `brand-navy`, `brand-teal`) — never hard-code hex values in a screen.
+  `secondary`, `success`, `danger`, `warning`, `info`, `light`, `dark`) — never
+  hard-code hex values in a screen.
 - **Tokens are the source of truth.** Brand values live ONLY in
   `src/styles/_tokens.scss`, kept in sync with Figma via `/sync-tokens`. Never
   hard-code a brand color in a component; if a value is missing, add a token.
-- **One screen per file** in `src/screens/`. Shared pieces go in
-  `src/components/`. Mock data goes in `src/data/`.
+- **One screen per file**, inside the prototype's own folder
+  (`src/prototypes/<slug>/`), along with its mock data (`data/`) and one-off
+  components (`components/`). `src/screens/` and `src/components/` are the
+  shared foundation only — see "The gallery model" below.
 - **Keep prototype-only CSS thin.** Anything reusable belongs in the design
   system layer, not in a one-off style.
 - This is a prototype: **no backend, no auth, no tests required.** Fake data and
