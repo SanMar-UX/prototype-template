@@ -1,0 +1,84 @@
+<!-- Sample body for example-prototype.html — a component spot-check against
+     localhost:5173/design-system. Not part of the Project upload. -->
+<h1 class="h3 mb-1">Kit check — SanMar on stock Bootstrap</h1>
+<p class="text-secondary">Compare this page against <code>/design-system</code> on localhost. Buttons should be #0077cf with 4px corners, the active page pill soft blue, card padding 24px.</p>
+
+<div class="alert alert-success alert-dismissible mt-4" role="alert">
+  Success alert — subtle green derived from #00884f, 4px radius.
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<div class="d-flex flex-wrap gap-2 my-4">
+  <button class="btn btn-primary">Primary</button>
+  <button class="btn btn-secondary">Secondary</button>
+  <button class="btn btn-success">Success</button>
+  <button class="btn btn-danger">Danger</button>
+  <button class="btn btn-warning">Warning</button>
+  <button class="btn btn-outline-primary">Outline</button>
+  <button class="btn btn-primary btn-icon" aria-label="Search">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/></svg>
+  </button>
+</div>
+
+<div class="row g-4 align-items-start">
+  <div class="col-md-7">
+    <div class="card">
+      <div class="card-header fw-bold">Recent orders</div>
+      <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+          <thead><tr><th>Style</th><th>Product</th><th>Color</th><th class="text-end">Price</th></tr></thead>
+          <tbody>
+            <tr><td>PC54</td><td>Port &amp; Company Core Cotton Tee</td><td>Jet Black</td><td class="text-end">$4.29</td></tr>
+            <tr><td>K500</td><td>Port Authority Silk Touch Polo</td><td>Navy</td><td class="text-end">$11.79</td></tr>
+            <tr><td>NKDC1963</td><td>Nike Dri-FIT Micro Pique 2.0</td><td>White</td><td class="text-end">$33.50</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-footer d-flex justify-content-between align-items-center">
+        <span class="badge text-bg-success">Shipped</span>
+        <nav aria-label="pages">
+          <ul class="pagination pagination-sm mb-0">
+            <li class="page-item disabled"><a class="page-link">Previous</a></li>
+            <li class="page-item active"><a class="page-link" href="#" onclick="return false">1</a></li>
+            <li class="page-item"><a class="page-link" href="#" onclick="return false">2</a></li>
+            <li class="page-item"><a class="page-link" href="#" onclick="return false">Next</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-5">
+    <div class="card">
+      <div class="card-body">
+        <h2 class="h5 card-title">Ship-to address</h2>
+        <div class="mb-3">
+          <label class="form-label" for="ex-name">Company name</label>
+          <input class="form-control" id="ex-name" placeholder="Acme Screen Printing">
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="ex-state">State</label>
+          <select class="form-select" id="ex-state"><option>WA</option><option>OR</option><option>CA</option></select>
+        </div>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ex-modal">Open modal</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="display-6 mt-5 mb-0">Display type is Libre Baskerville.</p>
+
+<div class="modal fade" id="ex-modal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Bootstrap JS works</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">Modals, dropdowns, and the footer accordion all run on the CDN bundle — no React needed.</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>

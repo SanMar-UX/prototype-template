@@ -1,0 +1,122 @@
+<!-- ===========================================================================
+  SanMar site header — plain-HTML port of src/components/SiteHeader.jsx.
+  Shows the LOGGED-IN state; the logged-out top-right block is included in a
+  comment below it — swap them for a logged-out prototype.
+  Requires: bootstrap.min.css + sanmar-overrides.css (for .site-header styles).
+============================================================================ -->
+<header class="site-header border-bottom">
+
+  <!-- Desktop -->
+  <div class="d-none d-lg-block">
+    <div class="container d-flex align-items-center justify-content-between py-3">
+      <div class="d-flex align-items-center gap-3">
+        {{LOGO_BLUE:176x36}}
+        <span class="header-divider"></span>
+        <span class="header-tagline">Together, for Good.</span>
+      </div>
+
+      <!-- Top-right: LOGGED-IN -->
+      <div class="d-flex flex-column align-items-end gap-3">
+        <div class="d-flex gap-3">
+          <a href="#" class="header-util-link">Quick Order</a>
+          <a href="#" class="header-util-link d-inline-flex align-items-center gap-1">New Web User
+            <svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg></a>
+          <a href="#" class="header-util-link d-inline-flex align-items-center gap-1">Contact
+            <svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg></a>
+          <a href="#" class="header-util-link">Saved Shopping Box</a>
+          <a href="#" class="header-util-link">Log out</a>
+        </div>
+        <div class="d-flex align-items-center gap-5">
+          <div class="text-nowrap">
+            <div class="fw-bold" style="font-size:14px">Welcome, Victoria</div>
+            <div class="text-secondary" style="font-size:14px">Account Exec: Marilena Violari-West (ext. 4760)</div>
+          </div>
+          <div class="d-flex align-items-center gap-4">
+            <div class="d-flex align-items-center gap-2">
+              <span class="header-cart">
+                <span class="header-cart-badge">817</span>
+                {{SHOPPING_BOX:56x40}}
+              </span>
+              <div>
+                <div class="fw-bold" style="font-size:14px">Shopping Box</div>
+                <a href="#" class="text-decoration-underline" style="font-size:14px;color:#747473">$15,837.50</a>
+              </div>
+            </div>
+            <button type="button" class="btn btn-primary">Checkout</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top-right: LOGGED-OUT (swap in for the block above)
+      <div class="d-flex flex-column align-items-end gap-2">
+        <div class="d-flex gap-3">
+          <a href="#" class="header-util-link d-inline-flex align-items-center gap-1">Contact
+            <svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg></a>
+          <a href="#" class="header-util-link">New Web User</a>
+          <a href="#" class="header-util-link">New Customer Sign Up</a>
+        </div>
+        <div>
+          <div class="d-flex gap-2">
+            <input class="form-control form-control-sm" placeholder="Username" style="width:150px">
+            <input class="form-control form-control-sm" type="password" placeholder="Password" style="width:150px">
+            <button type="button" class="btn btn-primary btn-sm">Log In</button>
+          </div>
+          <div class="d-flex justify-content-between align-items-center mt-1">
+            <div class="form-check small text-secondary">
+              <input class="form-check-input" type="checkbox" id="stay-logged-in">
+              <label class="form-check-label" for="stay-logged-in">Stay Logged In</label>
+            </div>
+            <a href="#" class="header-util-link small text-decoration-underline">Forgot Password?</a>
+          </div>
+        </div>
+      </div>
+      -->
+    </div>
+
+    <!-- Blue main nav + search -->
+    <div class="header-navbar">
+      <div class="container d-flex align-items-center justify-content-between gap-3">
+        <nav class="d-flex">
+          <a href="#" class="header-nav-item">Products</a>
+          <a href="#" class="header-nav-item">Marketing</a>
+          <a href="#" class="header-nav-item">Resources</a>
+          <a href="#" class="header-nav-item">Sale</a>
+        </nav>
+        <div class="header-search">
+          <svg class="header-search-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/></svg>
+          <input type="search" class="form-control" placeholder="Search by Product, Style Number, or Category" aria-label="Search">
+        </div>
+      </div>
+    </div>
+
+    <!-- Breadcrumb (delete if the prototype doesn't need it) -->
+    <div class="container py-2">
+      <nav class="d-flex gap-2 align-items-center" aria-label="breadcrumb">
+        <a href="#" class="text-decoration-underline" style="color:var(--bs-primary)">Content</a>
+        <span class="text-secondary">&gt;</span>
+        <span class="text-secondary">Page</span>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Mobile / tablet -->
+  <div class="d-lg-none">
+    <div class="container d-flex align-items-center justify-content-between py-2">
+      <button type="button" class="header-hamburger" aria-label="Menu">
+        <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/></svg>
+        MENU
+      </button>
+      {{LOGO_BLUE:118x24}}
+      <span class="header-cart">
+        <span class="header-cart-badge">817</span>
+        {{SHOPPING_BOX:39x28}}
+      </span>
+    </div>
+    <div class="container pb-2">
+      <div class="header-search">
+        <svg class="header-search-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/></svg>
+        <input type="search" class="form-control" placeholder="Search by Product or Style Number" aria-label="Search">
+      </div>
+    </div>
+  </div>
+</header>
