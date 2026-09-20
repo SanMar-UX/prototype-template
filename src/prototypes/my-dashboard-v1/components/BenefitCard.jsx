@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Card, Badge, Button, Modal, Table, ProgressBar, Form, Alert } from 'react-bootstrap'
+import { Card, Badge, Button, Modal, Table, ProgressBar } from 'react-bootstrap'
 import InfoTip from './InfoTip.jsx'
 import Disclosure from './Disclosure.jsx'
 import { GLOSSARY } from '../data/personas.js'
@@ -62,8 +62,8 @@ function UsageBar({ spent, remaining, spentLabel, remainingLabel }) {
 // leads with the single most actionable fact (MF: the expiry date; RC: never
 // expires; OID: it's automatic).
 // =============================================================================
-export default function BenefitCard({ benefit, rep }) {
-  if (benefit.type === 'mf') return <MarketingFundCard b={benefit} rep={rep} />
+export default function BenefitCard({ benefit }) {
+  if (benefit.type === 'mf') return <MarketingFundCard b={benefit} />
   if (benefit.type === 'rc') return <RebateCreditCard b={benefit} />
   return <OffInvoiceCard b={benefit} />
 }
@@ -85,23 +85,14 @@ function CardShell({ title, tipKey, badge, children }) {
   )
 }
 
-function MarketingFundCard({ b, rep }) {
-  const [modal, setModal] = useState(null) // 'history' | 'howto' | 'request'
+function MarketingFundCard({ b }) {
+  const [modal, setModal] = useState(null) // 'history' | 'howto'
   return (
     <CardShell title="Marketing Fund" tipKey="mf" badge={<Badge bg="warning" text="dark">Expires in {b.expiresIn}</Badge>}>
       <div className="text-secondary small mb-1">Remaining balance</div>
       <Money value={b.remaining} className="mdb-money--lg" />
-      {/* SME ask (Barb, 2026-09): the next step must be obvious on the card,
-          routing to the person who places MF orders. MVP-honest version: a
-          structured *request* to the AE (the monitored small action from the
-          phased plan), not an order — MF ordering isn't online yet. */}
-      <div className="mt-3">
-        <Button variant="outline-primary" size="sm" onClick={() => setModal('request')}>
-          Request samples
-        </Button>
-      </div>
-      {/* no meter here — a depleting balance isn't "progress", bars are
-          reserved for goal-progress */}
+      {/* actions live inside Details; no meter here — a depleting balance
+          isn't "progress", bars are reserved for goal-progress */}
       <Disclosure summary="Details" className="mdb-carddetails mt-3">
         <div className="mt-3">
           <UsageBar spent={b.funded - b.remaining} remaining={b.remaining} spentLabel="spent" remainingLabel="left" />
@@ -134,88 +125,7 @@ function MarketingFundCard({ b, rep }) {
 
       <MfHistoryModal b={b} show={modal === 'history'} onHide={() => setModal(null)} />
       <MfHowToModal b={b} show={modal === 'howto'} onHide={() => setModal(null)} />
-      <MfRequestModal b={b} rep={rep} show={modal === 'request'} onHide={() => setModal(null)} />
     </CardShell>
-  )
-}
-
-// The "filled-out order slip": a request with intent + context attached, sent
-// to the AE who places the actual order. Deliberately NOT a SKU/qty picker —
-// that would promise cart mechanics the MVP doesn't have, and MF rules
-// (full-price only, qualifying brands) make every order rep-validated anyway.
-// Category comes from the qualifying-uses list in the program docs.
-const REQUEST_CATEGORIES = [
-  'Samples',
-  'Catalogs',
-  'Showroom supplies & displays',
-  'Other marketing purchase',
-]
-
-function MfRequestModal({ b, rep, show, onHide }) {
-  const [sent, setSent] = useState(false)
-  const repName = rep?.name ?? 'your SanMar Representative'
-  const repFirst = repName.split(' ')[0]
-  const close = () => {
-    onHide()
-    setSent(false)
-  }
-
-  return (
-    <Modal show={show} onHide={close}>
-      <Modal.Header closeButton className="px-4 pt-4">
-        <Modal.Title as="h5" className="fw-medium">Request a Marketing Fund order</Modal.Title>
-      </Modal.Header>
-      {sent ? (
-        <Modal.Body className="p-4">
-          <Alert variant="success" className="mb-3">
-            <div className="fw-semibold mb-1">Request sent</div>
-            <div>{repName} will follow up within 1 business day to complete your order.</div>
-          </Alert>
-          <div className="d-flex justify-content-end">
-            <Button variant="primary" onClick={close}>Done</Button>
-          </div>
-        </Modal.Body>
-      ) : (
-        <Form
-          onSubmit={(e) => {
-            e.preventDefault()
-            setSent(true)
-          }}
-        >
-          <Modal.Body className="p-4">
-            <p className="text-secondary">
-              Tell {repFirst}, your Account Executive, what you need — they&apos;ll confirm availability and pricing,
-              then place the order against your fund.
-            </p>
-            <Form.Group className="mb-3" controlId="mf-request-category">
-              <Form.Label>What is it for?</Form.Label>
-              <Form.Select defaultValue={REQUEST_CATEGORIES[0]}>
-                {REQUEST_CATEGORIES.map((c) => (
-                  <option key={c}>{c}</option>
-                ))}
-              </Form.Select>
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="mf-request-details">
-              <Form.Label>What would you like?</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                placeholder="e.g. Port Authority J790 jackets — one of each size in black"
-              />
-              <Form.Text>Style numbers help but aren&apos;t required.</Form.Text>
-            </Form.Group>
-            <div className="text-secondary small">
-              Sent with your request: your account details and Marketing Fund balance (<Money value={b.remaining} />,
-              expires {b.expires}).
-            </div>
-          </Modal.Body>
-          <Modal.Footer className="px-4 pb-4 border-0 pt-0">
-            <Button variant="outline-primary" onClick={close}>Cancel</Button>
-            <Button variant="primary" type="submit">Send request</Button>
-          </Modal.Footer>
-        </Form>
-      )}
-    </Modal>
   )
 }
 
@@ -229,7 +139,7 @@ function MfHistoryModal({ b, show, onHide }) {
   }).reverse()
 
   return (
-    <Modal show={show} onHide={onHide} size="lg">
+    <Modal show={show} onHide={onHide} size="lg" contentClassName="mdb-lofi-modal">
       <Modal.Header closeButton className="px-4 pt-4">
         <Modal.Title as="h5" className="fw-medium">Marketing Fund history</Modal.Title>
       </Modal.Header>
@@ -268,7 +178,7 @@ function MfHistoryModal({ b, show, onHide }) {
 // money?" — rules straight from the program offerings doc.
 function MfHowToModal({ b, show, onHide }) {
   return (
-    <Modal show={show} onHide={onHide}>
+    <Modal show={show} onHide={onHide} contentClassName="mdb-lofi-modal">
       <Modal.Header closeButton className="px-4 pt-4">
         <Modal.Title as="h5" className="fw-medium">Using your Marketing Fund</Modal.Title>
       </Modal.Header>
@@ -300,20 +210,11 @@ function MfHowToModal({ b, show, onHide }) {
   )
 }
 
-// SME correction (Barb, 2026-09): Rebate Credits DO expire — no year-to-year
-// rollover. Expiry rule mirrors MF pending policy review (Casey Vivang /
-// Nick Anderson). The face CTA routes to the existing View & Pay Invoices
-// flow, where the credit is applied.
 function RebateCreditCard({ b }) {
   return (
-    <CardShell title="Rebate Credit" tipKey="rc" badge={<Badge bg="warning" text="dark">Expires in {b.expiresIn}</Badge>}>
+    <CardShell title="Rebate Credit" tipKey="rc" badge={<Badge bg="success">Never expires</Badge>}>
       <div className="text-secondary small mb-1">Remaining balance</div>
       <Money value={b.remaining} className="mdb-money--lg" />
-      <div className="mt-3">
-        <Button variant="outline-primary" size="sm" onClick={() => {}}>
-          Apply to an invoice
-        </Button>
-      </div>
       <Disclosure summary="Details" className="mdb-carddetails mt-3">
         <div className="mt-3">
           <UsageBar
@@ -328,7 +229,6 @@ function RebateCreditCard({ b }) {
           facts={[
             ['Funded', <><Money value={b.funded} /> · {b.fundedDate}</>],
             ['Source', b.source],
-            ['Expires', b.expires],
             ['Invoice', `#${b.invoiceNo}`],
           ]}
         />
@@ -338,8 +238,7 @@ function RebateCreditCard({ b }) {
           </Button>
         </div>
         <div className="text-secondary small mt-3 mb-0">
-          Apply this credit when paying invoices online, or through your Credit Representative. Unused credit expires{' '}
-          {b.expires} and doesn&apos;t roll over.
+          You can apply this credit when paying invoices online, or through your Credit Representative.
         </div>
       </Disclosure>
     </CardShell>

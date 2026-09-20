@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Container, Row, Col, Alert, ProgressBar, Button, Card } from 'react-bootstrap'
+import { Container, Row, Col, Alert, ProgressBar, Button } from 'react-bootstrap'
 import SiteHeader from '../../components/SiteHeader.jsx'
 import SiteFooter from '../../components/SiteFooter.jsx'
 import AccountSidebar from './components/AccountSidebar.jsx'
@@ -44,7 +44,7 @@ export default function MyDashboard() {
   const persona = PERSONAS.find((p) => p.id === personaId)
 
   return (
-    <div className="d-flex flex-column min-vh-100">
+    <div className="d-flex flex-column min-vh-100 mdb-lofi">
       <SiteHeader loggedIn breadcrumbs={false} />
       <PersonaSwitcher activeId={personaId} onChange={setPersonaId} />
       <VersionSwitcher />
@@ -82,7 +82,7 @@ export default function MyDashboard() {
                 <Row className="g-4 mb-4">
                   {persona.balances.map((b) => (
                     <Col key={b.type} md={persona.balances.length > 1 ? 6 : 8} xl={persona.balances.length > 1 ? 6 : 7}>
-                      <BenefitCard benefit={b} rep={persona.rep} />
+                      <BenefitCard benefit={b} />
                     </Col>
                   ))}
                 </Row>
@@ -100,42 +100,16 @@ export default function MyDashboard() {
 
             {persona.scenario === 'new' && <EnrollmentPanel enrollment={persona.enrollment} />}
 
-            {persona.rep && <ContactPanel rep={persona.rep} />}
-
-            <p className="text-secondary small mt-4 mb-0">Program terms are confidential to your account.</p>
+            <p className="text-secondary small mt-5 mb-0">
+              Program terms are confidential to your account. Questions? Your SanMar Representative can walk you
+              through your program any time.
+            </p>
           </div>
         </div>
       </Container>
 
       <SiteFooter />
     </div>
-  )
-}
-
-// SME ask (Barb, 2026-09): a prominent "explore your options" action routing
-// to the customer's Salesforce-assigned Account Executive, with the 1-800
-// line as the fallback channel.
-function ContactPanel({ rep }) {
-  return (
-    <Card className="mdb-panel mt-5">
-      <Card.Body className="p-4 d-flex flex-wrap align-items-center justify-content-between gap-3">
-        <div>
-          <h2 className="h5 mb-1">Explore your options</h2>
-          <div className="text-secondary">
-            {rep.name}, your SanMar Account Executive, can walk you through your program, samples, and ways to use
-            your funds.
-          </div>
-        </div>
-        <div className="d-flex flex-wrap gap-2">
-          <Button variant="outline-primary" onClick={() => {}}>
-            Contact {rep.name.split(' ')[0]}
-          </Button>
-          <Button variant="outline-primary" onClick={() => {}}>
-            Call 1-800-426-6399
-          </Button>
-        </div>
-      </Card.Body>
-    </Card>
   )
 }
 
@@ -187,11 +161,6 @@ function AtRiskAlert({ atRisk }) {
         />
         <div className="small">
           {money0(atRisk.minimum - atRisk.gap)} of {money0(atRisk.minimum)} minimum
-        </div>
-        <div className="mt-3">
-          <Button variant="outline-primary" size="sm" onClick={() => {}}>
-            Shop eligible brands
-          </Button>
         </div>
       </div>
     </Alert>

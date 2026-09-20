@@ -41,9 +41,6 @@ export const PERSONAS = [
       family: 'Standard Incentive Program',
       minimum: 25000,
     },
-    // Every persona carries their Salesforce-assigned Account Executive — the
-    // SME-requested contact routing target ("explore your options" → the AE).
-    rep: { name: 'Alex Morgan' },
     balances: [
       {
         type: 'mf',
@@ -99,7 +96,6 @@ export const PERSONAS = [
       family: 'Standard Incentive Program',
       minimum: 25000,
     },
-    rep: { name: 'Dana Whitfield' },
     balances: [
       {
         type: 'rc',
@@ -107,8 +103,6 @@ export const PERSONAS = [
         funded: 5847.0,
         fundedDate: 'February 2026',
         source: 'Your 2025 purchases',
-        expires: 'January 31, 2027',
-        expiresIn: '6 months',
         invoiceNo: 'RBT-000121556',
       },
     ],
@@ -144,7 +138,6 @@ export const PERSONAS = [
       family: 'Buying Group Incentive Program',
       minimum: 50000,
     },
-    rep: { name: 'Marcus Lee' },
     balances: [
       {
         type: 'mf',
@@ -192,7 +185,6 @@ export const PERSONAS = [
       family: 'Custom-tier Incentive Program',
       minimum: 1000000,
     },
-    rep: { name: 'Priya Raman' },
     balances: [
       {
         type: 'mf',
@@ -215,8 +207,6 @@ export const PERSONAS = [
         funded: 54100,
         fundedDate: 'February 2026',
         source: 'Your 2025 purchases',
-        expires: 'January 31, 2027',
-        expiresIn: '6 months',
         invoiceNo: 'RBT-000129417',
       },
     ],
@@ -257,7 +247,6 @@ export const PERSONAS = [
       family: 'Standard Incentive Program',
       minimum: 25000,
     },
-    rep: { name: 'Jordan Ellis' },
     // 2025 ended below $25k, so nothing was funded in February 2026.
     balances: [],
     earning: {
@@ -297,7 +286,6 @@ export const PERSONAS = [
       family: 'Standard Incentive Program',
       minimum: 25000,
     },
-    rep: { name: 'Sam Carter' },
     balances: [
       {
         type: 'rc',
@@ -305,8 +293,6 @@ export const PERSONAS = [
         funded: 2204.0,
         fundedDate: 'February 2026',
         source: 'Your 2025 purchases',
-        expires: 'January 31, 2027',
-        expiresIn: '6 months',
         invoiceNo: 'RBT-000117204',
       },
     ],
@@ -357,14 +343,9 @@ export const PERSONAS = [
 export const GLOSSARY = {
   eligible:
     'Eligible Brand Purchases — everything you buy from private label, retail, and A4 brands this calendar year (invoiced orders only). This number decides your tier.',
-  // Exclusion list per Barb (2026-09): "less closeout, less sale, less
-  // freight" — final language to come from the policy owners before launch.
   rebatable:
-    'Rebatable Purchases — the full-price portion of your eligible purchases. Sale-priced, TVBP, closeout, freight charges and a few excluded styles don’t count. Your percentage is calculated on this number.',
+    'Rebatable Purchases — the full-price portion of your eligible purchases. Sale-priced, TVBP, closeout and a few excluded styles don’t count. Your earned percentage is calculated on this number.',
   mf: 'Marketing Funds can be used for samples, showroom supplies, catalogs, and other marketing purchases at full price. They expire January 31 of the year after they are funded.',
-  // SME correction (Barb, 2026-09): credits DO expire and can't roll over
-  // between years. Exact expiry rule mirrors MF pending policy review by the
-  // incentive-program manager (Casey Vivang / Nick Anderson).
-  rc: 'Rebate Credits are applied toward any open invoice — yours to direct. They expire January 31 of the year after they are funded and don’t roll over.',
+  rc: 'Rebate Credits are applied toward any open invoice — yours to direct, and they never expire.',
   oid: 'An Off-Invoice Discount is taken automatically at the time of order — no balance to track.',
 }

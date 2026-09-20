@@ -13,6 +13,7 @@ import AddDetails from './prototypes/simplified-returns/AddDetails.jsx'
 import ReviewAndSubmit from './prototypes/simplified-returns/ReviewAndSubmit.jsx'
 import ConfirmationScreen from './prototypes/simplified-returns/ConfirmationScreen.jsx'
 import MyDashboard from './prototypes/my-dashboard/MyDashboard.jsx'
+import MyDashboardV1 from './prototypes/my-dashboard-v1/MyDashboard.jsx'
 
 // =============================================================================
 // App — top-level routing.
@@ -40,8 +41,12 @@ export default function App() {
         <Route path="confirmation" element={<ConfirmationScreen />} />
       </Route>
 
-      {/* My Dashboard prototype — Incentive Programs MVP (persona switcher built in) */}
+      {/* My Dashboard prototype — Incentive Programs MVP (persona switcher built in).
+          V2 (post-SME-review) lives at the original slug; the pre-review V1
+          snapshot is preserved at /my-dashboard-v1. Both carry a version
+          toggle, and V2 has the "What's new" changelog. */}
       <Route path="/my-dashboard" element={<MyDashboard />} />
+      <Route path="/my-dashboard-v1" element={<MyDashboardV1 />} />
     </Routes>
   )
 }

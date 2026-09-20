@@ -27,6 +27,15 @@
   font-size: 14px;
 }
 
+/* --- lo-fi mode -------------------------------------------------------------
+   Grayscale-filters the page body (not the shared header/footer chrome) so
+   stakeholder sessions collect structure/content feedback, not UI feedback.
+   Purely visual, fully reversible — real fidelity work comes later with the
+   UI designer. */
+.mdb-lofi > main {
+  filter: grayscale(1);
+}
+
 /* --- demo persona switcher (prototype chrome, not product UI) --------------
    A floating pill fixed to the bottom-right, detached from the page layout so
    it can't be mistaken for product UI (same idiom as Vercel's preview
@@ -319,9 +328,41 @@
   padding-bottom: 14px;
 }
 
-/* version switcher (demo chrome) — floating pill stacked directly above the
-   persona switcher (bottom-right) so all prototype controls live in one
-   corner; flips between the V1 snapshot and V2 */
+/* Bootstrap modals portal to <body>, outside the grayscale-filtered <main>,
+   so they need their own lo-fi filter. */
+.mdb-lofi-modal {
+  filter: grayscale(1);
+}
+
+/* next-tier / growth nudges — label/value grammar: small label, scannable
+   headline, one detail line, bar with labeled endpoints */
+.mdb-nexttier {
+  border-top: 1px solid var(--bs-border-color);
+  padding-top: 1.5rem;
+}
+
+.mdb-nexttier__headline {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.mdb-progress {
+  height: 8px;
+}
+
+/* tier ladder */
+.mdb-tiertable {
+  max-width: 480px;
+}
+
+.mdb-tiertable__current td {
+  background: var(--bs-primary-bg-subtle);
+  font-weight: 600;
+}
+
+/* version switcher (demo chrome, added to the otherwise-untouched V1
+   snapshot) — same pill as V2 so the toggle looks identical on both sides */
 .mdb-vswitcher {
   position: fixed;
   bottom: 72px;
@@ -374,72 +415,4 @@
   height: 16px;
   background: rgba(255, 255, 255, 0.3);
   margin: 0 4px;
-}
-
-/* what's-new changelog list (V2 modal) */
-.mdb-changelog {
-  padding-left: 20px;
-  display: grid;
-  gap: 14px;
-}
-
-/* speedometer gauge — A/B alternative to the linear tier bar (Barb's
-   Marriott reference); rendered for Rebate Credit programs only */
-.mdb-gauge {
-  display: block;
-  width: 250px;
-  max-width: 100%;
-}
-
-.mdb-gauge__track,
-.mdb-gauge__fill {
-  fill: none;
-  stroke-width: 12;
-  stroke-linecap: round;
-}
-
-.mdb-gauge__track {
-  stroke: var(--bs-secondary-bg);
-}
-
-.mdb-gauge__fill {
-  stroke: var(--bs-primary);
-}
-
-.mdb-gauge__value {
-  font-size: 19px;
-  font-weight: 600;
-  fill: var(--bs-body-color);
-}
-
-.mdb-gauge__max {
-  font-size: 11px;
-  fill: var(--bs-secondary-color);
-}
-
-/* next-tier / growth nudges — label/value grammar: small label, scannable
-   headline, one detail line, bar with labeled endpoints */
-.mdb-nexttier {
-  border-top: 1px solid var(--bs-border-color);
-  padding-top: 1.5rem;
-}
-
-.mdb-nexttier__headline {
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 1.2;
-}
-
-.mdb-progress {
-  height: 8px;
-}
-
-/* tier ladder */
-.mdb-tiertable {
-  max-width: 480px;
-}
-
-.mdb-tiertable__current td {
-  background: var(--bs-primary-bg-subtle);
-  font-weight: 600;
 }

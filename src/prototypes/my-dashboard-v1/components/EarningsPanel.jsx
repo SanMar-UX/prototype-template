@@ -1,4 +1,4 @@
-import { Card, ProgressBar, Table, Row, Col, Badge, Button } from 'react-bootstrap'
+import { Card, ProgressBar, Table, Row, Col, Badge } from 'react-bootstrap'
 import InfoTip from './InfoTip.jsx'
 import Disclosure from './Disclosure.jsx'
 import { GLOSSARY } from '../data/personas.js'
@@ -34,10 +34,7 @@ export default function EarningsPanel({ earning }) {
             cents — false precision reads as noise. */}
         <div className="d-flex flex-wrap align-items-center gap-4">
           <div>
-            {/* SME copy correction (Barb, 2026-09): don't present projections
-                as "amounts you're earning" — they're estimates on the
-                rebatable base, not total spend. Estimate-forward wording. */}
-            <div className="text-secondary small mb-1">Estimated {earning.year} earnings — deposited February {nextFebruary}</div>
+            <div className="text-secondary small mb-1">On track to earn by February {nextFebruary}</div>
             {total > 0 ? (
               <div className="d-flex align-items-baseline gap-2 flex-wrap">
                 <span className="mdb-money mdb-money--lg">{money0(total)}</span>
@@ -66,12 +63,6 @@ export default function EarningsPanel({ earning }) {
           )}
         </div>
 
-        {total > 0 && (
-          <div className="text-secondary small mt-2">
-            Estimated from your Rebatable Purchases invoiced so far; final amounts are calculated after year end.
-          </div>
-        )}
-
         {/* The single most actionable nudge — label/value grammar, not prose:
             a small label, a scannable headline, ONE detail line, then the bar
             with its endpoints labeled underneath (no floating "$X of $Y"). */}
@@ -91,34 +82,17 @@ export default function EarningsPanel({ earning }) {
                 </span>
               )}
             </div>
-            {earning.rows.some((r) => r.type === 'rc') ? (
-              <TierGauge
-                valueLabel={money0(earning.eligible)}
-                maxLabel={money0(earning.nextTier.threshold)}
-                frac={earning.eligible / earning.nextTier.threshold}
-              />
-            ) : (
-              <>
-                <ProgressBar now={(earning.eligible / earning.nextTier.threshold) * 100} className="mdb-progress" />
-                <div className="d-flex justify-content-between small text-secondary mt-1">
-                  <span>{money0(earning.eligible)} so far</span>
-                  <span>{money0(earning.nextTier.threshold)}</span>
-                </div>
-              </>
-            )}
+            <ProgressBar now={(earning.eligible / earning.nextTier.threshold) * 100} className="mdb-progress" />
+            <div className="d-flex justify-content-between small text-secondary mt-1">
+              <span>{money0(earning.eligible)} so far</span>
+              <span>{money0(earning.nextTier.threshold)}</span>
+            </div>
             {earning.paceFinish && (
               <div className="small text-secondary mt-3">
                 At your current pace, {earning.year} finishes near <strong>{money0(earning.paceFinish)}</strong> —{' '}
                 {earning.paceNote}.
               </div>
             )}
-            {/* SME ask (Barb, 2026-09): loyalty-dashboard grammar — the meter
-                and status always sit next to an obvious action */}
-            <div className="mt-3">
-              <Button variant="outline-primary" size="sm" onClick={() => {}}>
-                Shop eligible brands
-              </Button>
-            </div>
           </div>
         ) : earning.growth ? (
           <GrowthNudge growth={earning.growth} />
@@ -212,10 +186,7 @@ function CalcSteps({ earning, nextFebruary }) {
       </>
     ),
     value: money0(earning.rebatable),
-    // Barb flagged "do not earn" as confusing here (the tier is earned; this
-    // is the payout base) — neutral wording until policy owners supply final
-    // language.
-    note: 'The full-price portion of your purchases. Sale-priced items, closeouts, and freight are not included in the payout calculation.',
+    note: 'The full-price portion of your purchases. Sale-priced and closeout items do not earn.',
   })
 
   if (earning.growth) {
@@ -251,7 +222,7 @@ function CalcSteps({ earning, nextFebruary }) {
     ),
     note: belowMinimum
       ? `Reach ${money0(earning.tierTable.tiers[0].min)} in Eligible Brand Purchases to begin earning ${earning.tierTable.tiers[0].pct}%.`
-      : `Estimated deposit, February ${nextFebruary} — final amounts are calculated after year end.`,
+      : `Deposited February ${nextFebruary}.`,
   })
 
   return (
@@ -268,30 +239,6 @@ function CalcSteps({ earning, nextFebruary }) {
         </div>
       ))}
     </div>
-  )
-}
-
-// A/B visualization experiment (Barb, 2026-09): she compared the ideal
-// experience to Marriott's status "speedometer". Rebate Credit programs
-// render next-tier progress as this gauge while Marketing Fund programs keep
-// the linear bar, so internal stakeholders can compare the two on one page.
-function TierGauge({ frac, valueLabel, maxLabel }) {
-  const f = Math.max(0, Math.min(frac, 1))
-  // semicircle: fraction 0 = left end, 1 = right end; cy 92, r 80
-  const pt = (fr, radius) => {
-    const a = Math.PI * (1 - fr)
-    return [100 + radius * Math.cos(a), 92 - radius * Math.sin(a)]
-  }
-  const [x0, y0] = pt(0, 80)
-  const [x2, y2] = pt(1, 80)
-  const [x1, y1] = pt(f, 80)
-  return (
-    <svg className="mdb-gauge" viewBox="0 0 200 100" role="img" aria-label={`${valueLabel} of ${maxLabel}`}>
-      <path d={`M ${x0} ${y0} A 80 80 0 0 1 ${x2} ${y2}`} className="mdb-gauge__track" />
-      {f > 0 && <path d={`M ${x0} ${y0} A 80 80 0 0 1 ${x1} ${y1}`} className="mdb-gauge__fill" />}
-      <text x="100" y="74" textAnchor="middle" className="mdb-gauge__value">{valueLabel}</text>
-      <text x="100" y="91" textAnchor="middle" className="mdb-gauge__max">of {maxLabel}</text>
-    </svg>
   )
 }
 
@@ -346,17 +293,10 @@ function GrowthNudge({ growth }) {
         <strong>{money0(next.gap)}</strong> more to reach <strong>{next.growthPct}%</strong> growth and upgrade your
         bonus.
       </div>
-      {/* blue like every goal-progress bar; green is reserved for a completed
-          state (which this UI doesn't have yet) */}
-      <ProgressBar now={(growth.currentGrowthPct / next.growthPct) * 100} className="mdb-progress" />
+      <ProgressBar now={(growth.currentGrowthPct / next.growthPct) * 100} variant="success" className="mdb-progress" />
       <div className="d-flex justify-content-between small text-secondary mt-1">
         <span>{growth.currentGrowthPct}% growth so far</span>
         <span>{next.growthPct}% growth</span>
-      </div>
-      <div className="mt-3">
-        <Button variant="outline-primary" size="sm" onClick={() => {}}>
-          Shop eligible brands
-        </Button>
       </div>
     </div>
   )

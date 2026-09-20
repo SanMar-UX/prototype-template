@@ -1,0 +1,36 @@
+/* Ad-hoc vertical account nav (prototype-local). */
+
+.account-sidebar {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.account-sidebar__item {
+  padding: 14px 16px;
+  font-size: 15px;
+  color: var(--bs-primary);
+  text-decoration: none;
+  border-bottom: 1px solid #eef0f2;
+}
+
+.account-sidebar__item:last-child {
+  border-bottom: 0;
+}
+
+.account-sidebar__item:hover {
+  background: #f8f9fa;
+}
+
+.account-sidebar__item--active {
+  color: #212529;
+  font-weight: 700;
+  background: #fff;
+  cursor: default;
+}
+
+.account-sidebar__item--active:hover {
+  background: #fff;
+}
