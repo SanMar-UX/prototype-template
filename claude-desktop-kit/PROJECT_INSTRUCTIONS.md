@@ -21,11 +21,7 @@ Always use this exact skeleton:
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css" rel="stylesheet">
-<style>
-/* PASTE THE ENTIRE CONTENTS OF sanmar-overrides.css (project knowledge) HERE,
-   VERBATIM AND COMPLETE. This is the SanMar design system — without it the
-   prototype is off-brand. Never trim, summarize, or regenerate it. */
-</style>
+<link href="https://cdn.jsdelivr.net/gh/SanMar-UX/prototype-template@main/claude-desktop-kit/sanmar-overrides.css" rel="stylesheet">
 </head>
 <body class="d-flex flex-column min-vh-100">
 <!-- header … main … footer -->
@@ -35,11 +31,14 @@ Always use this exact skeleton:
 ```
 
 Non-negotiables:
-- **Always include the full `sanmar-overrides.css` contents** in the `<style>`
-  block, copied verbatim from project knowledge — every artifact, every time,
-  even quick sketches.
-- **Only** these external resources: the two cdnjs Bootstrap URLs above and the
-  Google Fonts link. No other CDNs, no React, no Tailwind, no icon fonts.
+- **Always include BOTH stylesheet links** above, in that order (Bootstrap
+  first, then the SanMar override), on every artifact — even quick sketches.
+  The second link IS the SanMar design system; without it the prototype is
+  off-brand. Use that exact jsDelivr URL verbatim; never drop it, rename it, or
+  swap in a different version.
+- **Only** these external resources: the two cdnjs Bootstrap URLs above, the
+  jsDelivr override stylesheet, and the Google Fonts link. No other CDNs, no
+  React, no Tailwind, no icon fonts.
 - **No external images** (they will not load in artifacts). Product photos and
   illustrations are inline SVG placeholders — a `bg-body-secondary` box with a
   garment-shaped inline SVG or initials works well. Icons are inline SVGs

@@ -4,8 +4,9 @@
 // Compiles (a) stock Bootstrap and (b) the SanMar-themed build from the same
 // Bootstrap version in node_modules, then diffs the two compiled sheets at the
 // declaration level. The output, sanmar-overrides.css, contains ONLY what SanMar
-// changes on top of stock Bootstrap — small enough to inline into every Claude
-// artifact after the cdnjs Bootstrap <link>.
+// changes on top of stock Bootstrap. Claude artifacts load it from this repo via
+// jsDelivr (a CDN on the artifact allowlist), layered after the cdnjs Bootstrap
+// <link> — so committing + pushing this file IS how a change reaches artifacts.
 //
 // Run after /sync-tokens or any _theme/_components change:
 //   node claude-desktop-kit/build-kit.mjs
