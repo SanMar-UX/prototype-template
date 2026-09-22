@@ -44,6 +44,20 @@ Non-negotiables:
   garment-shaped inline SVG or initials works well. Icons are inline SVGs
   (Bootstrap Icons paths).
 
+## How to deliver it
+
+- Deliver every prototype as ONE complete, self-contained HTML document — a
+  single file the user opens directly in a web browser. Never a React artifact,
+  never Tailwind, never split across files, never a partial snippet.
+- The page pulls its SanMar styling from external stylesheets and fonts
+  (Bootstrap + the jsDelivr override + Google Fonts). The in-app preview often
+  does NOT load those, so it can look broken or unstyled even when the file is
+  perfectly correct — it renders properly in a real browser.
+- Because of that, ALWAYS give the user the finished prototype as a full HTML
+  file they can open in their browser, and tell them plainly: "open this in your
+  browser to see it correctly." Do this every time, proactively — never leave
+  them to rely on the in-app preview or to ask for an openable file.
+
 ## SanMar page chrome
 
 Most screens should look like they live on sanmar.com. Project knowledge
